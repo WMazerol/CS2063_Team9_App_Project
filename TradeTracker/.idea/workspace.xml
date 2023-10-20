@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fdf2ecb3-1174-45a4-9cea-ad06853c5fe2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/.idea/kotlinc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/proguard-rules.pro" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/java/mobiledev/unb/ca/lab4skeleton/AlarmReceiver.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/java/mobiledev/unb/ca/lab4skeleton/Constants.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/java/mobiledev/unb/ca/lab4skeleton/MainActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/layout/activity_main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/values-night/themes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/values/colors.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/values/dimens.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/values/themes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/app/src/main/res/xml/file_paths.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BroadcastReceiverSkeleton/settings.gradle" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="2X0LLPQZc59BaFoeGhsO1XZtSVH" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cidr.known.project.marker": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fdf2ecb3-1174-45a4-9cea-ad06853c5fe2" name="Changes" comment="" />
+      <created>1697760995868</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1697760995868</updated>
+    </task>
+    <servers />
+  </component>
+</project>
