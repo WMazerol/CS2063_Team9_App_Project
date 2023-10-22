@@ -19,7 +19,7 @@ class AlarmReceiver : BroadcastReceiver() {
         // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
         Log.i("TradeTracker - AlarmReceiver", "PLACEHOLDER")
 
-        if(false) {
+        if(27500 > 27000) {
             val openIntent = Intent(context, MainActivity::class.java)
             val pendingIntent: PendingIntent =
                 PendingIntent.getActivity(context, 0, openIntent, PendingIntent.FLAG_IMMUTABLE)

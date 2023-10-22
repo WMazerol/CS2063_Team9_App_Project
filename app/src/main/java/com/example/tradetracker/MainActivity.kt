@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var alarmManager: AlarmManager
     private lateinit var alarmIntent: PendingIntent
-    private val alarmTimeInterval = 5 * 100
+    private val alarmTimeInterval = 5 * 1000
     private val apiController = APIController(this@MainActivity)
 
     private val buy = 27500
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         if(alarmIntent != null && alarmManager != null) {
             alarmManager!!.cancel(alarmIntent!!)
         }
-
+        println(alarmManager == null || alarmIntent == null)
         setAlarmIntent()
 
         val intentFilter = IntentFilter()
@@ -110,6 +110,7 @@ class MainActivity : AppCompatActivity() {
             alarmTimeInterval.toLong(),
             alarmIntent!!
         )
+        Log.i("TradeTracker - Main", "Alarm Intent Set")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
