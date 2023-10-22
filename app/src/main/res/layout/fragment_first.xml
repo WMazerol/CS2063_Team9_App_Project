@@ -6,80 +6,69 @@
     android:layout_height="match_parent"
     tools:context=".FirstFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:padding="24dp">
 
-        <Button
-            android:id="@+id/button_first"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/next"
-            app:layout_constraintBottom_toTopOf="@id/textViewSymbol"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        <Button-->
+<!--            android:id="@+id/button_first"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/next"-->
+<!--            android:layout_centerHorizontal="true"/>-->
 
         <TextView
             android:id="@+id/textViewSymbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:text="Symbol"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.145"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_first" />
+            app:layout_constraintHorizontal_bias="0" />
 
         <TextView
             android:id="@+id/textViewBuyPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:text="Buy Price"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.116"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewStopLoss"
-            app:layout_constraintVertical_bias="0.022" />
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintVertical_bias="1.0"
+            android:layout_below="@id/textViewSymbol"/>
 
         <TextView
             android:id="@+id/textViewStopLoss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Stop Loss"
-            tools:layout_editor_absoluteX="34dp"
-            app:layout_constraintTop_toBottomOf="@id/textViewSymbol"
-            tools:layout_marginTop="16dp"/>
+            app:layout_constraintHorizontal_bias="0"
+            android:layout_marginTop="24dp"
+            android:layout_below="@id/textViewBuyPrice"/>
 
         <TextView
             android:id="@+id/textViewTakeProfit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Take Profit"
-            tools:layout_editor_absoluteX="286dp"
-            app:layout_constraintTop_toBottomOf="@id/textViewSymbol"
-            tools:layout_marginTop="16dp"/>
+            android:layout_marginTop="24dp"
+            android:layout_below="@id/textViewPrice"
+            android:layout_alignParentRight="true"/>
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            tools:layout_editor_absoluteX="274dp"
-            tools:layout_editor_absoluteY="252dp" />
+<!--        <TextView-->
+<!--            android:id="@+id/textView3"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="TextView"-->
+<!--            tools:layout_editor_absoluteX="288dp"-->
+<!--            tools:layout_editor_absoluteY="293dp" />-->
 
         <TextView
             android:id="@+id/textViewPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Price/Change"
-            tools:layout_editor_absoluteX="286dp"
-            tools:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/button_first" />
+            android:layout_marginTop="24dp"
+            android:layout_alignParentRight="true"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 </androidx.core.widget.NestedScrollView>

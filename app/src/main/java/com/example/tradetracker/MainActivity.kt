@@ -39,17 +39,20 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-    private val alarmManager = getSystemService(Context.ALARM_SERVICE) as? AlarmManager
-    private val alarmIntent = Intent(this@MainActivity, AlarmReceiver::class.java).let { intent ->
-        PendingIntent.getBroadcast(this@MainActivity, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-    }
-    val alarmTimeInterval = 5 * 100
+    private lateinit var alarmManager: AlarmManager
+    private lateinit var alarmIntent: PendingIntent
+    private val alarmTimeInterval = 5 * 100
+    private val apiController = APIController(this@MainActivity)
 
-    private val client = OkHttpClient()
-    val buy = 27500
+    private val buy = 27500
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        alarmManager = (getSystemService(Context.ALARM_SERVICE) as? AlarmManager)!!
+        alarmIntent = Intent(this@MainActivity, AlarmReceiver::class.java).let { intent ->
+            PendingIntent.getBroadcast(this@MainActivity, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -70,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         notificationController.createNotificationChannel()
 
         if(alarmIntent != null && alarmManager != null) {
-            alarmManager.cancel(alarmIntent)
+            alarmManager!!.cancel(alarmIntent!!)
         }
 
         setAlarmIntent()
@@ -80,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         intentFilter.addAction(Intent.ACTION_POWER_DISCONNECTED)
 
         //apiRequestURL("https://www.advantageonlineshopping.com/accountservice/accountrest/api/v1/health-check")
-        apiRequestURL("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
+        apiController.apiRequestURL("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
         findViewById<TextView>(R.id.textViewSymbol).text = "BTCUSDT"
         findViewById<TextView>(R.id.textViewBuyPrice).text = buy.toString()
 
@@ -90,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         override fun onReceive(context: Context, intent: Intent) {
             if(intent.action.equals(Intent.ACTION_POWER_DISCONNECTED)) {
                 Log.i("TradeTracker - Main", "Battery Low")
-                alarmManager?.cancel(alarmIntent)
+                alarmIntent?.let { alarmManager?.cancel(it) }
                 //Toast.makeText(context, "Battery Low", Toast.LENGTH_LONG).show()
             } else if(intent.action.equals(Intent.ACTION_POWER_CONNECTED)) {
                 Log.i("TradeTracker - Main", "Battery Okay")
@@ -100,29 +103,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun apiRequestURL(url: String) {
-        val request = Request.Builder()
-            .url(url)
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {}
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body()?.string()
-                println("API TEST: $body")
-                runOnUiThread {
-                    findViewById<TextView>(R.id.textViewPrice).text = JSONObject(body).getString("price")+"("+String.format("%.2f", (JSONObject(body).getString("price").toDouble()/buy-1)*100)+"%)"
-                }
-            }
-        })
-    }
-
     private fun setAlarmIntent() {
         alarmManager?.setInexactRepeating(
             AlarmManager.ELAPSED_REALTIME_WAKEUP,
             SystemClock.elapsedRealtime() + alarmTimeInterval,
             alarmTimeInterval.toLong(),
-            alarmIntent
+            alarmIntent!!
         )
     }
 
