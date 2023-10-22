@@ -7,6 +7,11 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <string name="channel_name">Trade Tracker Notification Channel</string>
+    <string name="channel_description">Notification channel for TradeTracker</string>
+    <string name="notification_title">TradeTracker Trade Alert</string>
+    <string name="notification_text">Check the Status of your Active Trades!</string>
+
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
