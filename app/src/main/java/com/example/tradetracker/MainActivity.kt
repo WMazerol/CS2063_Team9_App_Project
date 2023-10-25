@@ -27,6 +27,8 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.tradetracker.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -83,9 +85,19 @@ class MainActivity : AppCompatActivity() {
         intentFilter.addAction(Intent.ACTION_POWER_DISCONNECTED)
 
         //apiRequestURL("https://www.advantageonlineshopping.com/accountservice/accountrest/api/v1/health-check")
-        apiController.apiRequestURL("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
+
+        priceThread.start()
+        
+        
+        GlobalScope.launch{println(">"+apiController.apiRequestURLWithResponse("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"))}
         findViewById<TextView>(R.id.textViewSymbol).text = "BTCUSDT"
-        findViewById<TextView>(R.id.textViewBuyPrice).text = buy.toString()
+
+        val BTC: Trade = Trade("BTCUSDT", 27500.0, 30000.00, 30000.0, 1.0)
+        findViewById<TextView>(R.id.textViewBuyPrice).text = "Buy Price: " + BTC.getBuyPrice().toString()
+        findViewById<TextView>(R.id.textViewTakeProfit).text = "Take Profit: " + BTC.getTakeProfit().toString()
+        findViewById<TextView>(R.id.textViewStopLoss).text = "Stop Loss: " + BTC.getStopLoss().toString()
+
+        TradeManager().addToTradeList(BTC)
 
     }
 
@@ -111,6 +123,43 @@ class MainActivity : AppCompatActivity() {
             alarmIntent!!
         )
         Log.i("TradeTracker - Main", "Alarm Intent Set")
+    }
+
+    private val priceThread = Thread {
+        var running = false
+
+        fun cancel() {
+            running = false
+        }
+
+        fun run() {
+            running = true
+            while(running) {
+                apiController.apiRequestURL("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
+                Thread.sleep(1000)
+            }
+        }
+
+        run()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("TradeTracker - Main", "Destroyed")
+        //priceThread.cancel()
+        priceThread.interrupt()//.cancel()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.i("TradeTracker - Main", "Restarted")
+        //priceThread.run()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("TradeTracker - Main", "Resumed")
+        //priceThread.run()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
