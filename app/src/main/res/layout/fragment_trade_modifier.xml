@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_trade_modifier"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:background="@color/cardview_dark_background"
+    android:visibility="invisible">
+
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        tools:ignore="RelativeOverlap">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/white"
+            android:layout_alignLeft="@+id/edittext_trade_modifier_symbol"
+            android:layout_alignTop="@id/edittext_trade_modifier_symbol"
+            android:text="@string/trade_modifier_symbol"/>
+        <EditText
+            android:id="@+id/edittext_trade_modifier_symbol"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:text="" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/white"
+            android:layout_alignLeft="@+id/edittext_trade_modifier_entry"
+            android:layout_alignTop="@id/edittext_trade_modifier_entry"
+            android:text="@string/trade_modifier_entry"/>
+        <EditText
+            android:id="@+id/edittext_trade_modifier_entry"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:layout_below="@id/edittext_trade_modifier_symbol"
+            android:text="" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/white"
+            android:layout_alignLeft="@+id/edittext_trade_modifier_share_quantity"
+            android:layout_alignTop="@id/edittext_trade_modifier_share_quantity"
+            android:text="@string/trade_modifier_share_quantity"/>
+        <EditText
+            android:id="@+id/edittext_trade_modifier_share_quantity"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:layout_below="@id/edittext_trade_modifier_entry"
+            android:text="" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/white"
+            android:layout_alignLeft="@+id/edittext_trade_modifier_take_profit"
+            android:layout_alignTop="@id/edittext_trade_modifier_take_profit"
+            android:text="@string/trade_modifier_take_profit"/>
+        <EditText
+            android:id="@+id/edittext_trade_modifier_take_profit"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:layout_below="@id/edittext_trade_modifier_share_quantity"
+            android:text="" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/white"
+            android:layout_alignLeft="@+id/edittext_trade_modifier_stop_loss"
+            android:layout_alignTop="@id/edittext_trade_modifier_stop_loss"
+            android:text="@string/trade_modifier_stop_loss"/>
+
+        <EditText
+            android:id="@+id/edittext_trade_modifier_stop_loss"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/edittext_trade_modifier_take_profit"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/white"
+            android:text=""
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
+
+
+
+    <Button
+        android:id="@+id/btn2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:textColor="@color/white"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="25dp"
+        android:padding="0dp"
+        android:text="🗑"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/button_trade_modifier_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/close"
+        android:layout_marginBottom="25dp"/>
+
+</RelativeLayout>

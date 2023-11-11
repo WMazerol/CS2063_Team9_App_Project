@@ -36,7 +36,9 @@ class APIController(private val activity: MainActivity) {
                 val body = response.body()?.string()
                 //println("API TEST: $body")
                 activity.runOnUiThread {
-                    activity.findViewById<TextView>(R.id.textViewPrice).text = JSONObject(body).getString("price")+"("+String.format("%.2f", (JSONObject(body).getString("price").toDouble()/buy-1)*100)+"%)"
+                    //String.format((if(JSONObject(body).getString("price").toDouble() >= 1) "%.3d" else "%.5d"),
+                    activity.findViewById<TextView>(R.id.textViewPrice).text = JSONObject(body).getString("price")+
+                            "("+String.format("%.2f", (JSONObject(body).getString("price").toDouble()/buy-1)*100)+"%)"
                 }
                 var trades: ArrayList<Trade> = TradeManager().getTrades("BTCUSDT")
                 trades[0].setLastPrice(JSONObject(body).getString("price").toDouble())

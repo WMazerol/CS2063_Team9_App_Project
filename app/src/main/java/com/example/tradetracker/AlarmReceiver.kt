@@ -30,7 +30,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val tradesBeyondStopOrTake = TradeManager().getTradesPastStopOrTake()
 
         for(trade in tradesBeyondStopOrTake) {
-            if(Duration.between(trade.getLastNotified(), LocalDateTime.now()).toHours() > -1) {
+            if(Duration.between(trade.getLastNotified(), LocalDateTime.now()).toHours() > 2) {
 
                 val openIntent = Intent(context, MainActivity::class.java)
                 val pendingIntent: PendingIntent =

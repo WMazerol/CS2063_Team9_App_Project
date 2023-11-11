@@ -16,6 +16,9 @@ import android.os.SystemClock
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -66,8 +69,14 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Not Yet Implemented.", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            Log.i("Trade Modifier", "Open Layout")
+            findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.VISIBLE
+            //Snackbar.make(view, "Not Yet Implemented.", Snackbar.LENGTH_LONG)
+            //        .setAction("Action", null).show()
+        }
+        findViewById<Button>(R.id.button_trade_modifier_close).setOnClickListener {
+            Log.i("Trade Modifier", "Close Layout")
+            findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.INVISIBLE
         }
 
         val notificationController = NotificationController(this, this@MainActivity)
@@ -92,7 +101,7 @@ class MainActivity : AppCompatActivity() {
         GlobalScope.launch{println(">"+apiController.apiRequestURLWithResponse("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"))}
         findViewById<TextView>(R.id.textViewSymbol).text = "BTCUSDT"
 
-        val BTC: Trade = Trade("BTCUSDT", 27500.0, 30000.00, 30000.0, 1.0)
+        val BTC: Trade = Trade(0, "BTCUSDT", 27500.0, 30000.00, 30000.0, 1.0)
         findViewById<TextView>(R.id.textViewBuyPrice).text = "Buy Price: " + BTC.getBuyPrice().toString()
         findViewById<TextView>(R.id.textViewTakeProfit).text = "Take Profit: " + BTC.getTakeProfit().toString()
         findViewById<TextView>(R.id.textViewStopLoss).text = "Stop Loss: " + BTC.getStopLoss().toString()

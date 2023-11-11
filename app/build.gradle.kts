@@ -46,6 +46,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
 
     implementation("com.squareup.okhttp3:okhttp:3.8.1")
+    implementation("androidx.room:room-common:2.6.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

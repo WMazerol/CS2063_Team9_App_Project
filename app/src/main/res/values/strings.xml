@@ -6,11 +6,19 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="close">Close</string>
 
     <string name="channel_name">Trade Tracker Notification Channel</string>
     <string name="channel_description">Notification channel for TradeTracker</string>
     <string name="notification_title">TradeTracker Trade Alert</string>
     <string name="notification_text">Check the Status of your Active Trades!</string>
+
+    <string name="trade_modifier_symbol">Symbol</string>
+    <string name="trade_modifier_take_profit">Take Profit</string>
+    <string name="trade_modifier_stop_loss">Stop-Loss</string>
+    <string name="trade_modifier_entry">Entry Price</string>
+    <string name="trade_modifier_share_quantity">Order Qty</string>
+
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
