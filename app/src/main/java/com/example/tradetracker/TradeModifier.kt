@@ -32,13 +32,39 @@ class TradeModifier : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
-
+        super.onViewCreated(view, savedInstanceState)
 
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun closeNewTrade() {
+        binding.layoutTradeModifier.visibility = View.INVISIBLE
+        clearTradeModifierEditTexts()
+    }
+
+    fun createNewTrade() {
+        binding.layoutTradeModifier.visibility = View.INVISIBLE
+
+        val trade: Trade = Trade(0, binding.edittextTradeModifierSymbol.text.toString(),
+            binding.edittextTradeModifierEntry.text.toString().toDouble(),
+            binding.edittextTradeModifierStopLoss.text.toString().toDouble(),
+            binding.edittextTradeModifierTakeProfit.text.toString().toDouble(),
+            binding.edittextTradeModifierShareQuantity.text.toString().toDouble())
+        TradeManager().addToTradeList(trade)
+        println(trade.toString())
+
+        clearTradeModifierEditTexts()
+    }
+
+    private fun clearTradeModifierEditTexts() {
+        binding.edittextTradeModifierSymbol.text.clear()
+        binding.edittextTradeModifierEntry.text.clear()
+        binding.edittextTradeModifierShareQuantity.text.clear()
+        binding.edittextTradeModifierTakeProfit.text.clear()
+        binding.edittextTradeModifierStopLoss.text.clear()
     }
 }

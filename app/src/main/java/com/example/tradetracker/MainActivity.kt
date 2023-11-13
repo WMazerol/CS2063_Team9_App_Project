@@ -74,9 +74,13 @@ class MainActivity : AppCompatActivity() {
             //Snackbar.make(view, "Not Yet Implemented.", Snackbar.LENGTH_LONG)
             //        .setAction("Action", null).show()
         }
-        findViewById<Button>(R.id.button_trade_modifier_close).setOnClickListener {
+        findViewById<Button>(R.id.button_trade_modifier_delete).setOnClickListener {
             Log.i("Trade Modifier", "Close Layout")
-            findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.INVISIBLE
+            TradeModifier().closeNewTrade()
+        }
+        findViewById<Button>(R.id.button_trade_modifier_save).setOnClickListener {
+            Log.i("Trade Modifier", "Save Trade")
+            TradeModifier().createNewTrade()
         }
 
         val notificationController = NotificationController(this, this@MainActivity)
