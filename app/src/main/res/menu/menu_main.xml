@@ -2,6 +2,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.tradetracker.MainActivity">
+
+    <item
+        android:id="@+id/tab_live"
+        android:title="@string/tab_live" />
+
+    <item
+        android:id="@+id/tab_history"
+        android:title="@string/tab_history" />
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

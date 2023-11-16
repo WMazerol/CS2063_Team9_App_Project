@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
     private val apiController = APIController(this@MainActivity)
 
     private val buy = 27500
+    private var live = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -187,6 +188,14 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
+            R.id.tab_live -> {
+                live = 1
+                true
+            }
+            R.id.tab_history -> {
+                live = 0
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
