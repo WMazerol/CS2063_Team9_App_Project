@@ -25,6 +25,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.LiveData
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -195,13 +196,19 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
-            R.id.tab_live -> {
-                live = 1
-                true
-            }
-            R.id.tab_history -> {
-                live = 0
+            R.id.tab_crypto -> {
+                if (live == 1)
+                {
+                    live = 0
+                    item.setTitle(R.string.tab_live)
+                    binding.toolbar.setTitle(R.string.tab_history)
+                }
+                else
+                {
+                    live = 1
+                    item.setTitle(R.string.tab_history)
+                    binding.toolbar.setTitle(R.string.tab_live)
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)

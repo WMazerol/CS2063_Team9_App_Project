@@ -26,9 +26,6 @@ class TradeAdapter(context: Context, items: List<Trade>) : ArrayAdapter<Trade>(
         val tvStopLoss = currView.findViewById<TextView>(R.id.textViewStopLoss)
         val tvTakeProfit = currView.findViewById<TextView>(R.id.textViewTakeProfit)
 
-        // TODO
-        //  Set the text used by tvName and tvNum using the data object
-        //  This will need to updated once the entity model has been updated
         tvSymbol.text = trade!!.getSymbol()
         tvPrice.text = trade!!.getLastPrice().toString()
         tvBuyPrice.text = trade!!.getBuyPrice().toString()
