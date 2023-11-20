@@ -18,6 +18,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.ListView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -48,6 +49,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var alarmIntent: PendingIntent
     private val alarmTimeInterval = 5 * 1000
     private val apiController = APIController(this@MainActivity)
+    private lateinit var tradeViewModel: TradeViewModel
+    private lateinit var listView: ListView
 
     private val buy = 27500
     private var live = 1
@@ -59,6 +62,8 @@ class MainActivity : AppCompatActivity() {
         alarmIntent = Intent(this@MainActivity, AlarmReceiver::class.java).let { intent ->
             PendingIntent.getBroadcast(this@MainActivity, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         }
+
+        //listView = findViewById(R.id.listview)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -204,5 +209,12 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
+    }
+
+    fun tradeList()
+    {
+        /*val results = tradeViewModel.getTrades(live)
+
+        listView.adapter = TradeAdapter(this@MainActivity, results)*/
     }
 }
