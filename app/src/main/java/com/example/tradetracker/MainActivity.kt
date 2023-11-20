@@ -77,15 +77,18 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener { view ->
             Log.i("Trade Modifier", "Open Layout")
             findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.VISIBLE
+            binding.fab.visibility = View.INVISIBLE
             //Snackbar.make(view, "Not Yet Implemented.", Snackbar.LENGTH_LONG)
             //        .setAction("Action", null).show()
         }
         findViewById<Button>(R.id.button_trade_modifier_delete).setOnClickListener {
             Log.i("Trade Modifier", "Close Layout")
+            binding.fab.visibility = View.VISIBLE
             TradeModifier().closeNewTrade()
         }
         findViewById<Button>(R.id.button_trade_modifier_save).setOnClickListener {
             Log.i("Trade Modifier", "Save Trade")
+            binding.fab.visibility = View.VISIBLE
             TradeModifier().createNewTrade()
         }
 
