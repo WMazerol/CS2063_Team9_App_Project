@@ -15,7 +15,7 @@ class Trade(private val id: Int = 0,
             private var buyPrice: Double,
             private var stopLoss: Double,
             private var takeProfit: Double,
-            private var shareQuantity: Double) {
+            private var shareValue: Double) {
 
     private var lastPrice = 0.00
     private var closingDate: Date? = null
@@ -36,8 +36,8 @@ class Trade(private val id: Int = 0,
     fun getTakeProfit(): Double {
         return takeProfit
     }
-    fun getShareQuantity(): Double {
-        return shareQuantity
+    fun getShareValue(): Double {
+        return shareValue
     }
     fun getLastPrice(): Double {
         return lastPrice
@@ -57,8 +57,8 @@ class Trade(private val id: Int = 0,
     fun setTakeProfit(value: Double) {
         takeProfit = value
     }
-    fun setShareQuantity(value: Double) {
-        shareQuantity = value
+    fun setShareValue(value: Double) {
+        shareValue = value
     }
     fun setLastPrice(value: Double) {
         lastPrice = value
