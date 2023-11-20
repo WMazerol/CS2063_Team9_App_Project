@@ -31,7 +31,7 @@
             android:textColor="@color/white"
             android:backgroundTint="@color/white"
             android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
+            android:layout_margin="15dp"
             android:text="" />
 
         <TextView
@@ -48,7 +48,7 @@
             android:textColor="@color/white"
             android:backgroundTint="@color/white"
             android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
+            android:layout_margin="15dp"
             android:layout_below="@id/edittext_trade_modifier_symbol"
             android:text="" />
 
@@ -66,7 +66,7 @@
             android:textColor="@color/white"
             android:backgroundTint="@color/white"
             android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
+            android:layout_margin="15dp"
             android:layout_below="@id/edittext_trade_modifier_entry"
             android:text="" />
 
@@ -77,16 +77,20 @@
             android:layout_alignLeft="@+id/edittext_trade_modifier_take_profit"
             android:layout_alignTop="@id/edittext_trade_modifier_take_profit"
             android:text="@string/trade_modifier_take_profit"/>
+
         <EditText
             android:id="@+id/edittext_trade_modifier_take_profit"
             android:layout_width="200dp"
             android:layout_height="60dp"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/white"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
             android:layout_below="@id/edittext_trade_modifier_share_quantity"
-            android:text="" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="@color/white"
+            android:text=""
+            android:textColor="@color/white" />
 
         <TextView
             android:layout_height="wrap_content"
@@ -102,7 +106,7 @@
             android:layout_height="60dp"
             android:layout_below="@id/edittext_trade_modifier_take_profit"
             android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
+            android:layout_margin="15dp"
             android:backgroundTint="@color/white"
             android:text=""
             android:textColor="@color/white" />

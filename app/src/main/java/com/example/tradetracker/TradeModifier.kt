@@ -7,13 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.example.tradetracker.databinding.TradeModifierBinding
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
-class TradeModifier : Fragment() {
+class TradeModifier : AppCompatActivity() {
 
     private var _binding: TradeModifierBinding? = null
 
@@ -21,22 +22,24 @@ class TradeModifier : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+    override fun onCreate(
+        //inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-        ): View? {
+        ) {
+        super.onCreate(savedInstanceState)
 
-        _binding = TradeModifierBinding.inflate(inflater, container, false)
-        return binding.root
+        _binding = TradeModifierBinding.inflate(layoutInflater)
 
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
+//    override fun onViewCreated(
+//        //view: View,
+//        savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         _binding = null
     }
 
