@@ -8,14 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.navigation.fragment.findNavController
-import com.example.tradetracker.databinding.FragmentTradeModifierBinding
+import com.example.tradetracker.databinding.TradeModifierBinding
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
 class TradeModifier : Fragment() {
 
-    private var _binding: FragmentTradeModifierBinding? = null
+    private var _binding: TradeModifierBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -26,14 +26,13 @@ class TradeModifier : Fragment() {
         savedInstanceState: Bundle?
         ): View? {
 
-        _binding = FragmentTradeModifierBinding.inflate(inflater, container, false)
+        _binding = TradeModifierBinding.inflate(inflater, container, false)
         return binding.root
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
     }
 
     override fun onDestroyView() {
