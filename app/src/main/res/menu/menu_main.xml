@@ -4,16 +4,6 @@
     tools:context="com.example.tradetracker.MainActivity">
 
     <item
-        android:id="@+id/tab_live"
-        android:title="@string/tab_live" />
-
-    <item
-        android:id="@+id/tab_history"
+        android:id="@+id/tab_crypto"
         android:title="@string/tab_history" />
-
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
 </menu>
