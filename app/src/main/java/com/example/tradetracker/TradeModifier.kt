@@ -55,7 +55,7 @@ class TradeModifier : AppCompatActivity() {
             binding.edittextTradeModifierEntry.text.toString().toDouble(),
             binding.edittextTradeModifierStopLoss.text.toString().toDouble(),
             binding.edittextTradeModifierTakeProfit.text.toString().toDouble(),
-            binding.edittextTradeModifierShareQuantity.text.toString().toDouble())
+            binding.edittextTradeModifierShareValue.text.toString().toDouble())
         TradeManager().addToTradeList(trade)
         println(trade.toString())
 
@@ -65,7 +65,7 @@ class TradeModifier : AppCompatActivity() {
     private fun clearTradeModifierEditTexts() {
         binding.edittextTradeModifierSymbol.text.clear()
         binding.edittextTradeModifierEntry.text.clear()
-        binding.edittextTradeModifierShareQuantity.text.clear()
+        binding.edittextTradeModifierShareValue.text.clear()
         binding.edittextTradeModifierTakeProfit.text.clear()
         binding.edittextTradeModifierStopLoss.text.clear()
     }

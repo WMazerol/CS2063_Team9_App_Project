@@ -84,13 +84,15 @@ class MainActivity : AppCompatActivity() {
         }
         findViewById<Button>(R.id.button_trade_modifier_delete).setOnClickListener {
             Log.i("Trade Modifier", "Close Layout")
+            findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.INVISIBLE
             binding.fab.visibility = View.VISIBLE
-            TradeModifier().closeNewTrade()
+            //TradeModifier().closeNewTrade()
         }
         findViewById<Button>(R.id.button_trade_modifier_save).setOnClickListener {
             Log.i("Trade Modifier", "Save Trade")
+            findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.INVISIBLE
             binding.fab.visibility = View.VISIBLE
-            TradeModifier().createNewTrade()
+            //TradeModifier().createNewTrade()
         }
 
         val notificationController = NotificationController(this, this@MainActivity)
@@ -223,8 +225,8 @@ class MainActivity : AppCompatActivity() {
 
     fun tradeList()
     {
-        /*val results = tradeViewModel.getTrades(live)
+        val results = tradeViewModel.getTrades(live)
 
-        listView.adapter = TradeAdapter(this@MainActivity, results)*/
+        listView.adapter = TradeAdapter(this@MainActivity, results)
     }
 }

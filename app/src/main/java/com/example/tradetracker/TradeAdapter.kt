@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import com.example.tradetracker.entity.TradeEntity
 
-class TradeAdapter(context: Context, items: List<Trade>) : ArrayAdapter<Trade>(
+class TradeAdapter(context: Context, items: List<TradeEntity>) : ArrayAdapter<TradeEntity>(
     context, 0, items) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         // Get the data item for this position
@@ -26,11 +27,11 @@ class TradeAdapter(context: Context, items: List<Trade>) : ArrayAdapter<Trade>(
         val tvStopLoss = currView.findViewById<TextView>(R.id.textViewStopLoss)
         val tvTakeProfit = currView.findViewById<TextView>(R.id.textViewTakeProfit)
 
-        tvSymbol.text = trade!!.getSymbol()
-        tvPrice.text = trade!!.getLastPrice().toString()
-        tvBuyPrice.text = trade!!.getBuyPrice().toString()
-        tvStopLoss.text = trade!!.getStopLoss().toString()
-        tvTakeProfit.text = trade!!.getTakeProfit().toString()
+        tvSymbol.text = trade!!.symbol
+        tvPrice.text = trade!!.lastPrice.toString()
+        tvBuyPrice.text = trade!!.buyPrice.toString()
+        tvStopLoss.text = trade!!.stopLoss.toString()
+        tvTakeProfit.text = trade!!.takeProfit.toString()
 
         // Return the completed view to render on screen
         return currView

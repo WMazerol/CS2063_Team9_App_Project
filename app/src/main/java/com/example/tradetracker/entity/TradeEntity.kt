@@ -3,7 +3,6 @@ package com.example.tradetracker.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.sql.Date
 
 @Entity(tableName = "trades") // Represents a SQLite table
  class TradeEntity {
@@ -53,17 +52,17 @@ import java.sql.Date
             field = value
         }
 
-//    @ColumnInfo
-//    var closingDate: Date? = null
-//        get() = field
-//        set(value) {
-//            field = value
-//        }
-//
-//    @ColumnInfo
-//    var lastNotified: Date? = null
-//        get() = field
-//        set(value) {
-//            field = value
-//        }
+    @ColumnInfo
+    var closingDate: String? = null
+        get() = field
+        set(value) {
+            field = value
+        }
+
+    @ColumnInfo
+    var lastNotified: String? = null
+        get() = field
+        set(value) {
+            field = value
+        }
 }
