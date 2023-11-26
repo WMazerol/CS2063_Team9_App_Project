@@ -1,48 +1,35 @@
 package com.example.tradetracker
 
-import android.Manifest
 import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
+import android.text.Editable
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView.OnItemClickListener
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.tradetracker.databinding.ActivityMainBinding
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import org.json.JSONObject
-import java.io.IOException
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -57,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     private val buy = 27500
     private var live = 1
+    private var newTrade = 1
 
     private var editSymbol: EditText? = null
     private var editBuyPrice: EditText? = null
@@ -87,6 +75,7 @@ class MainActivity : AppCompatActivity() {
             Log.i("Trade Modifier", "Open Layout")
             findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.VISIBLE
             binding.fab.visibility = View.INVISIBLE
+            newTrade = 1
             //Snackbar.make(view, "Not Yet Implemented.", Snackbar.LENGTH_LONG)
             //        .setAction("Action", null).show()
         }
@@ -94,6 +83,11 @@ class MainActivity : AppCompatActivity() {
             Log.i("Trade Modifier", "Close Layout")
             findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.INVISIBLE
             binding.fab.visibility = View.VISIBLE
+
+            if (newTrade == 0)
+            {
+                
+            }
 
             clearEdits()
             tradeList()
@@ -117,7 +111,6 @@ class MainActivity : AppCompatActivity() {
             }
             else
             {
-                binding.toolbar.setTitle("Didn't Save")
                 Toast.makeText(this@MainActivity, "Data Entered is Incomplete", Toast.LENGTH_SHORT)
             }
         }
@@ -153,6 +146,25 @@ class MainActivity : AppCompatActivity() {
 
         listView = findViewById(R.id.list_view)
         tradeList()
+
+        listView.setOnItemClickListener { parent, view, position, id ->
+            if (live == 1)
+            {
+                newTrade = 0
+                val trade = tradeViewModel.getTrades(live)[position]
+
+                findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.VISIBLE
+                binding.fab.visibility = View.INVISIBLE
+
+                getEdits()
+
+                editSymbol!!.text = trade.symbol as Editable
+                editBuyPrice!!.text = trade.buyPrice as Editable
+                editStopLoss!!.text = trade.stopLoss as Editable
+                editTakeProfit!!.text = trade.takeProfit as Editable
+                editShareValue!!.text = trade.shareValue as Editable
+            }
+        }
     }
 
     private val batteryInfoReceiver: BroadcastReceiver = object : BroadcastReceiver() {
