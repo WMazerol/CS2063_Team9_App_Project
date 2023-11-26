@@ -17,7 +17,7 @@ class TradeAdapter(context: Context, items: List<TradeEntity>) : ArrayAdapter<Tr
         // Check if an existing view is being reused, otherwise inflate the view
         var currView = convertView
         if (currView == null) {
-            currView = LayoutInflater.from(context).inflate(R.layout.fragment_first, parent, false)
+            currView = LayoutInflater.from(context).inflate(R.layout.list_layout, parent, false)
         }
 
         // Lookup view for data population
