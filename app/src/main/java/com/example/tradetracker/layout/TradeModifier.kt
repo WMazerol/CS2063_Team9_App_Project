@@ -27,8 +27,7 @@ class TradeModifier(activity: AppCompatActivity) {
     private val edittextTradeModifierTakeProfit = activity.findViewById<EditText>(R.id.edittext_trade_modifier_take_profit)
     private val edittextTradeModifierShareValue = activity.findViewById<EditText>(R.id.edittext_trade_modifier_share_value)
 
-    fun closeNewTrade() {
-        layoutTradeModifier.visibility = View.INVISIBLE
+    fun closeNewTrade() {        layoutTradeModifier.visibility = View.INVISIBLE
         clearTradeModifierEditTexts()
     }
 
