@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.example.tradetracker.R
 import com.example.tradetracker.entity.Trade
 
-class TradeAdapter(context: Context, items: List<Trade>) : ArrayAdapter<Trade>(
+class TradeAdapter(context: Context, items: List<TradeEntity>) : ArrayAdapter<TradeEntity>(
     context, 0, items) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         // Get the data item for this position
@@ -18,7 +18,7 @@ class TradeAdapter(context: Context, items: List<Trade>) : ArrayAdapter<Trade>(
         // Check if an existing view is being reused, otherwise inflate the view
         var currView = convertView
         if (currView == null) {
-            currView = LayoutInflater.from(context).inflate(R.layout.fragment_first, parent, false)
+            currView = LayoutInflater.from(context).inflate(R.layout.list_layout, parent, false)
         }
 
         // Lookup view for data population

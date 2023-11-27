@@ -64,7 +64,6 @@ import java.time.LocalDateTime
             field = value
         }
 
-
     @ColumnInfo
     var lastNotified: String? = null
         get() = field

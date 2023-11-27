@@ -27,11 +27,18 @@ class TradeRepository(application: Application) {
         AppDatabase.databaseWriterExecutor.execute { tradeDao!!.insert(trade) }
     }
 
-    fun search(): List<Trade> {
+    fun tradeList(live: Int): List<TradeEntity> {
         // Using a Callable thread object as there are return values
         val dataReadFuture: Future<List<Trade>>? = AppDatabase.databaseWriterExecutor.submit(
             Callable {
-                return@Callable tradeDao!!.findLiveTrades()
+                if(live == 1)
+                {
+                    return@Callable tradeDao!!.findLiveTrades()
+                }
+                else
+                {
+                    return@Callable tradeDao!!.findHistoricalTrades()
+                }
             })
 
         while (!dataReadFuture!!.isDone) {// Simulating another task

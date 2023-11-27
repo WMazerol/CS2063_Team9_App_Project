@@ -8,15 +8,20 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.os.SystemClock
+import android.text.Editable
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView.OnItemClickListener
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ListView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -42,6 +47,13 @@ class MainActivity : AppCompatActivity() {
 
     private val buy = 27500
     private var live = 1
+    private var newTrade = 1
+
+    private var editSymbol: EditText? = null
+    private var editBuyPrice: EditText? = null
+    private var editStopLoss: EditText? = null
+    private var editTakeProfit: EditText? = null
+    private var editShareValue: EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             PendingIntent.getBroadcast(this@MainActivity, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         }
 
-        //listView = findViewById(R.id.listview)
+        tradeViewModel = ViewModelProvider(this)[TradeViewModel::class.java]
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -67,9 +79,11 @@ class MainActivity : AppCompatActivity() {
             findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.VISIBLE
             Log.i("Trade Modifier", findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility.toString())
             binding.fab.visibility = View.INVISIBLE
+            newTrade = 1
         }
         findViewById<Button>(R.id.button_trade_modifier_delete).setOnClickListener {
             Log.i("Trade Modifier", "Close Layout")
+            findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.INVISIBLE
             binding.fab.visibility = View.VISIBLE
             TradeModifier(this).closeNewTrade()
         }
@@ -84,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         notificationController.createNotificationChannel()
 
         if(alarmIntent != null && alarmManager != null) {
-            alarmManager!!.cancel(alarmIntent!!)
+            alarmManager.cancel(alarmIntent)
         }
         println(alarmManager == null || alarmIntent == null)
         setAlarmIntent()
@@ -108,13 +122,34 @@ class MainActivity : AppCompatActivity() {
 
         //TradeManager().addToTradeList(BTC)
 
+        listView = findViewById(R.id.list_view)
+        tradeList()
+
+        listView.setOnItemClickListener { parent, view, position, id ->
+            if (live == 1)
+            {
+                newTrade = 0
+                val trade = tradeViewModel.getTrades(live)[position]
+
+                findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.VISIBLE
+                binding.fab.visibility = View.INVISIBLE
+
+                getEdits()
+
+                editSymbol!!.text = trade.symbol as Editable
+                editBuyPrice!!.text = trade.buyPrice as Editable
+                editStopLoss!!.text = trade.stopLoss as Editable
+                editTakeProfit!!.text = trade.takeProfit as Editable
+                editShareValue!!.text = trade.shareValue as Editable
+            }
+        }
     }
 
     private val batteryInfoReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if(intent.action.equals(Intent.ACTION_POWER_DISCONNECTED)) {
                 Log.i("TradeTracker - Main", "Battery Low")
-                alarmIntent?.let { alarmManager?.cancel(it) }
+                alarmIntent.let { alarmManager.cancel(it) }
                 //Toast.makeText(context, "Battery Low", Toast.LENGTH_LONG).show()
             } else if(intent.action.equals(Intent.ACTION_POWER_CONNECTED)) {
                 Log.i("TradeTracker - Main", "Battery Okay")
@@ -125,11 +160,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setAlarmIntent() {
-        alarmManager?.setInexactRepeating(
+        alarmManager.setInexactRepeating(
             AlarmManager.ELAPSED_REALTIME_WAKEUP,
             SystemClock.elapsedRealtime() + alarmTimeInterval,
             alarmTimeInterval.toLong(),
-            alarmIntent!!
+            alarmIntent
         )
         Log.i("TradeTracker - Main", "Alarm Intent Set")
     }
@@ -188,12 +223,14 @@ class MainActivity : AppCompatActivity() {
                     live = 0
                     item.setTitle(R.string.tab_live)
                     binding.toolbar.setTitle(R.string.tab_history)
+                    tradeList()
                 }
                 else
                 {
                     live = 1
                     item.setTitle(R.string.tab_history)
                     binding.toolbar.setTitle(R.string.tab_live)
+                    tradeList()
                 }
                 true
             }
@@ -207,10 +244,40 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
-    fun tradeList()
-    {
-        /*val results = tradeViewModel.getTrades(live)
 
-        listView.adapter = TradeAdapter(this@MainActivity, results)*/
+    private fun clearEdits()
+    {
+        getEdits()
+
+        editSymbol!!.text.clear()
+        editBuyPrice!!.text.clear()
+        editStopLoss!!.text.clear()
+        editTakeProfit!!.text.clear()
+        editShareValue!!.text.clear()
+
+        KeyboardUtils.hideKeyboard(this@MainActivity)
+    }
+
+    private fun getEdits()
+    {
+        editSymbol = findViewById(R.id.edittext_trade_modifier_symbol)
+        editBuyPrice =  findViewById(R.id.edittext_trade_modifier_entry)
+        editStopLoss =  findViewById(R.id.edittext_trade_modifier_stop_loss)
+        editTakeProfit =  findViewById(R.id.edittext_trade_modifier_take_profit)
+        editShareValue = findViewById(R.id.edittext_trade_modifier_share_value)
+    }
+
+
+    private fun tradeList()
+    {
+        val results = tradeViewModel.getTrades(live)
+
+        listView.adapter = TradeAdapter(this@MainActivity, results)
+    }
+
+
+    private fun addTrade(symbol: String, buyPrice: Double, stopLoss: Double, takeProfit: Double, shareValue: Double)
+    {
+        tradeViewModel.addTrade(symbol, buyPrice, stopLoss, takeProfit, shareValue)
     }
 }
