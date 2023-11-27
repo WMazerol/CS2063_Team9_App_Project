@@ -12,7 +12,7 @@
     <string name="notification_title">TradeTracker Trade Alert</string>
     <string name="notification_text">Check the Status of your Active Trades!</string>
 
-    <string name="trade_modifier_symbol">Symbol</string>
+    <string name="trade_modifier_symbol">Symbol (Ex: BTCUSDT)</string>
     <string name="trade_modifier_take_profit">Take Profit</string>
     <string name="trade_modifier_stop_loss">Stop-Loss</string>
     <string name="trade_modifier_entry">Entry Price</string>

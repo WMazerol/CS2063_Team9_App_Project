@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity() {
 
     private val buy = 27500
     private var live = 1
-    private var newTrade = 1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,18 +74,19 @@ class MainActivity : AppCompatActivity() {
             findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.VISIBLE
             Log.i("Trade Modifier", findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility.toString())
             binding.fab.visibility = View.INVISIBLE
-            newTrade = 1
         }
         findViewById<Button>(R.id.button_trade_modifier_delete).setOnClickListener {
             Log.i("Trade Modifier", "Close Layout")
             findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.INVISIBLE
             binding.fab.visibility = View.VISIBLE
             TradeModifier(this).closeNewTrade()
+            KeyboardUtils.hideKeyboard(this)
         }
         findViewById<Button>(R.id.button_trade_modifier_save).setOnClickListener {
             Log.i("Trade Modifier", "Save Trade")
             binding.fab.visibility = View.VISIBLE
             TradeModifier(this).saveTrade()
+            KeyboardUtils.hideKeyboard(this)
         }
 
         val notificationController = NotificationController(this, this@MainActivity)
@@ -116,15 +116,12 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.textViewTakeProfit).text = "Take Profit: " + BTC.getTakeProfit().toString()
         findViewById<TextView>(R.id.textViewStopLoss).text = "Stop Loss: " + BTC.getStopLoss().toString()
 
-        //TradeManager().addToTradeList(BTC)
-
         listView = findViewById(R.id.list_view)
-        tradeList()
+        refreshTradeList()
 
         listView.setOnItemClickListener { parent, view, position, id ->
             if (live == 1)
             {
-                newTrade = 0
                 val trade = tradeViewModel.getTrades(live)[position]
 
                 TradeModifier(this).populateEdittextsFromTrade(trade)
@@ -170,6 +167,9 @@ class MainActivity : AppCompatActivity() {
             running = true
             while(running) {
                 //apiController.apiRequestURL("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
+//                runOnUiThread() {
+//                    refreshTradeList()
+//                }
                 Thread.sleep(1000)
             }
         }
@@ -213,14 +213,14 @@ class MainActivity : AppCompatActivity() {
                     live = 0
                     item.setTitle(R.string.tab_live)
                     binding.toolbar.setTitle(R.string.tab_history)
-                    tradeList()
+                    refreshTradeList()
                 }
                 else
                 {
                     live = 1
                     item.setTitle(R.string.tab_history)
                     binding.toolbar.setTitle(R.string.tab_live)
-                    tradeList()
+                    refreshTradeList()
                 }
                 true
             }
@@ -234,7 +234,7 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
-    private fun tradeList()
+    fun refreshTradeList()
     {
         val results = tradeViewModel.getTrades(live)
 

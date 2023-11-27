@@ -40,30 +40,33 @@ class TradeModifier(activity: AppCompatActivity) {
     private fun createNewTrade() {
         layoutTradeModifier.visibility = View.INVISIBLE
 
-        try {
-            mTradeViewModel.insert(edittextTradeModifierSymbol.text.toString(),
-                edittextTradeModifierEntry.text.toString().toDouble(),
-                edittextTradeModifierStopLoss.text.toString().toDouble(),
-                edittextTradeModifierTakeProfit.text.toString().toDouble(),
-                edittextTradeModifierShareValue.text.toString().toDouble())
-        } catch(e: NumberFormatException) {
-            Log.i("Trade Modifier", "Empty EditText")
+        if(edittextTradeModifierSymbol.text.toString() != "") {
+            try {
+                mTradeViewModel.insert(
+                    edittextTradeModifierSymbol.text.toString(),
+                    edittextTradeModifierEntry.text.toString().toDouble(),
+                    edittextTradeModifierStopLoss.text.toString().toDouble(),
+                    edittextTradeModifierTakeProfit.text.toString().toDouble(),
+                    edittextTradeModifierShareValue.text.toString().toDouble()
+                )
+            } catch (e: NumberFormatException) {
+                Log.i("Trade Modifier", "Empty EditText")
+            }
         }
 
         clearTradeModifierEditTexts()
     }
 
     private fun saveModifiedTrade() {
-        if(tradeModifying != null) {
-            tradeModifying!!.buyPrice = edittextTradeModifierEntry.text.toString().toDouble()
-            tradeModifying!!.stopLoss = edittextTradeModifierStopLoss.text.toString().toDouble()
-            tradeModifying!!.takeProfit = edittextTradeModifierTakeProfit.text.toString().toDouble()
-            tradeModifying!!.shareValue = edittextTradeModifierShareValue.text.toString().toDouble()
+        tradeModifying!!.buyPrice = edittextTradeModifierEntry.text.toString().toDouble()
+        tradeModifying!!.stopLoss = edittextTradeModifierStopLoss.text.toString().toDouble()
+        tradeModifying!!.takeProfit = edittextTradeModifierTakeProfit.text.toString().toDouble()
+        tradeModifying!!.shareValue = edittextTradeModifierShareValue.text.toString().toDouble()
 
-            mTradeViewModel.update(tradeModifying!!)
+        mTradeViewModel.update(tradeModifying!!)
+        Log.i("Trade Modifier", "ID: "+tradeModifying!!.id)
 
-            tradeModifying = null
-        }
+        tradeModifying = null
     }
 
     fun saveTrade() {
@@ -71,6 +74,8 @@ class TradeModifier(activity: AppCompatActivity) {
             createNewTrade()
         else
             saveModifiedTrade()
+
+        MainActivity().refreshTradeList()
     }
 
     fun populateEdittextsFromTrade(trade: Trade) {
@@ -90,7 +95,10 @@ class TradeModifier(activity: AppCompatActivity) {
         edittextTradeModifierShareValue.text.clear()
         edittextTradeModifierTakeProfit.text.clear()
         edittextTradeModifierStopLoss.text.clear()
+        edittextTradeModifierSymbol.isEnabled = true
+    }
 
-        KeyboardUtils.hideKeyboard(MainActivity())
+    fun modyfingActiveTrade(): Boolean {
+        return tradeModifying != null
     }
 }
