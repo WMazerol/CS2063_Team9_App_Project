@@ -2,20 +2,16 @@ package com.example.tradetracker
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.room.Entity
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Calendar
 import java.util.Date
-import java.util.Locale
 
 //@Entity()
-class Trade(private val id: Int = 0,
-            private val symbol: String,
-            private var buyPrice: Double,
-            private var stopLoss: Double,
-            private var takeProfit: Double,
-            private var shareValue: Double) {
+class Trade_Old(private val id: Int = 0,
+                   private val symbol: String,
+                   private var buyPrice: Double,
+                   private var stopLoss: Double,
+                   private var takeProfit: Double,
+                   private var shareValue: Double) {
 
     private var lastPrice = 0.00
     private var closingDate: Date? = null

@@ -1,24 +1,20 @@
 package com.example.tradetracker
 
 import android.Manifest
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.provider.Settings.Global.getString
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.tradetracker.entity.TradeManager
 import java.time.Duration
 import java.time.LocalDateTime
-import java.time.Period
-import java.time.ZoneId
-import java.util.Calendar
 
 class AlarmReceiver : BroadcastReceiver() {
 
@@ -30,14 +26,14 @@ class AlarmReceiver : BroadcastReceiver() {
         val tradesBeyondStopOrTake = TradeManager().getTradesPastStopOrTake()
 
         for(trade in tradesBeyondStopOrTake) {
-            if(Duration.between(trade.getLastNotified(), LocalDateTime.now()).toHours() > 2) {
+            if(Duration.between(trade.formatStringToDate(trade.lastNotified!!), LocalDateTime.now()).toHours() > 2) {
 
                 val openIntent = Intent(context, MainActivity::class.java)
                 val pendingIntent: PendingIntent =
                     PendingIntent.getActivity(context, 0, openIntent, PendingIntent.FLAG_IMMUTABLE)
 
-                val contentText = trade.getSymbol() + " has gone " +
-                        if(trade.getStopLoss() >= trade.getLastPrice()) "below your set stop loss" else "beyond your set take profit"
+                val contentText = trade.symbol + " has gone " +
+                        if(trade.stopLoss!! >= trade.lastPrice!!) "below your set stop loss" else "beyond your set take profit"
 
                 var builder = NotificationCompat.Builder(context, Constants.NOTIFICATION_CHANNEL_ID)
                     .setSmallIcon(R.mipmap.ic_launcher)

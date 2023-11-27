@@ -1,4 +1,4 @@
-package com.example.tradetracker
+package com.example.tradetracker.entity
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import com.example.tradetracker.R
+import com.example.tradetracker.entity.Trade
 
 class TradeAdapter(context: Context, items: List<Trade>) : ArrayAdapter<Trade>(
     context, 0, items) {
@@ -26,11 +28,11 @@ class TradeAdapter(context: Context, items: List<Trade>) : ArrayAdapter<Trade>(
         val tvStopLoss = currView.findViewById<TextView>(R.id.textViewStopLoss)
         val tvTakeProfit = currView.findViewById<TextView>(R.id.textViewTakeProfit)
 
-        tvSymbol.text = trade!!.getSymbol()
-        tvPrice.text = trade!!.getLastPrice().toString()
-        tvBuyPrice.text = trade!!.getBuyPrice().toString()
-        tvStopLoss.text = trade!!.getStopLoss().toString()
-        tvTakeProfit.text = trade!!.getTakeProfit().toString()
+        tvSymbol.text = trade!!.symbol
+        tvPrice.text = trade!!.lastPrice.toString()
+        tvBuyPrice.text = trade!!.buyPrice.toString()
+        tvStopLoss.text = trade!!.stopLoss.toString()
+        tvTakeProfit.text = trade!!.takeProfit.toString()
 
         // Return the completed view to render on screen
         return currView

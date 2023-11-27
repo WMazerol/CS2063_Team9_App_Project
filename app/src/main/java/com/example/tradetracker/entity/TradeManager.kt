@@ -1,9 +1,5 @@
-package com.example.tradetracker
+package com.example.tradetracker.entity
 
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.json.JSONException
-import org.json.JSONObject
 
 class TradeManager {
 
@@ -14,7 +10,7 @@ class TradeManager {
     fun getTrades(symbol: String): ArrayList<Trade> {
         var trades: ArrayList<Trade> = ArrayList<Trade>()
         for(trade: Trade in tradeList) {
-            if(symbol == trade.getSymbol()) {
+            if(symbol == trade.symbol) {
                 trades.add(trade)
             }
         }
@@ -27,7 +23,7 @@ class TradeManager {
 
     fun removeFromTradeList(symbol: String, buyPrice: Double): Boolean {
         for(i in 0..tradeList.size step 1) {
-            if(tradeList[i].getSymbol() == symbol && tradeList[i].getBuyPrice() == buyPrice) {
+            if(tradeList[i].symbol == symbol && tradeList[i].buyPrice == buyPrice) {
                 tradeList.removeAt(i)
                 return true
             }
@@ -55,8 +51,7 @@ class TradeManager {
 //        }
         var trades: ArrayList<Trade> = ArrayList<Trade>()
         for(trade: Trade in tradeList) {
-            println(trade.getLastPrice())
-            if(trade.getStopLoss() >= trade.getLastPrice() || trade.getTakeProfit() <= trade.getLastPrice()) {
+            if(trade.stopLoss!! >= trade.lastPrice!! || trade.takeProfit!! <= trade.lastPrice!!) {
                 trades.add(trade)
             }
         }

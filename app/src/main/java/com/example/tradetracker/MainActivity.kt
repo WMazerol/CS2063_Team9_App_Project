@@ -1,16 +1,11 @@
 package com.example.tradetracker
 
-import android.Manifest
 import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
@@ -21,26 +16,18 @@ import android.widget.Button
 import android.widget.ListView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.lifecycle.LiveData
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.tradetracker.databinding.ActivityMainBinding
-import com.google.android.material.snackbar.Snackbar
+import com.example.tradetracker.entity.Trade
+import com.example.tradetracker.entity.TradeManager
+import com.example.tradetracker.layout.TradeModifier
+import com.example.tradetracker.model.TradeViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import org.json.JSONObject
-import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
@@ -78,19 +65,18 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener { view ->
             Log.i("Trade Modifier", "Open Layout")
             findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.VISIBLE
+            Log.i("Trade Modifier", findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility.toString())
             binding.fab.visibility = View.INVISIBLE
-            //Snackbar.make(view, "Not Yet Implemented.", Snackbar.LENGTH_LONG)
-            //        .setAction("Action", null).show()
         }
         findViewById<Button>(R.id.button_trade_modifier_delete).setOnClickListener {
             Log.i("Trade Modifier", "Close Layout")
             binding.fab.visibility = View.VISIBLE
-            TradeModifier().closeNewTrade()
+            TradeModifier(this).closeNewTrade()
         }
         findViewById<Button>(R.id.button_trade_modifier_save).setOnClickListener {
             Log.i("Trade Modifier", "Save Trade")
             binding.fab.visibility = View.VISIBLE
-            TradeModifier().createNewTrade()
+            TradeModifier(this).createNewTrade()
         }
 
         val notificationController = NotificationController(this, this@MainActivity)
@@ -112,15 +98,15 @@ class MainActivity : AppCompatActivity() {
         priceThread.start()
         
         
-        GlobalScope.launch{println(">"+apiController.apiRequestURLWithResponse("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"))}
+        //GlobalScope.launch{println(">"+apiController.apiRequestURLWithResponse("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"))}
         findViewById<TextView>(R.id.textViewSymbol).text = "BTCUSDT"
 
-        val BTC: Trade = Trade(0, "BTCUSDT", 27500.0, 30000.00, 30000.0, 1.0)
+        val BTC: Trade_Old = Trade_Old(0, "BTCUSDT", 27500.0, 30000.00, 30000.0, 1.0)
         findViewById<TextView>(R.id.textViewBuyPrice).text = "Buy Price: " + BTC.getBuyPrice().toString()
         findViewById<TextView>(R.id.textViewTakeProfit).text = "Take Profit: " + BTC.getTakeProfit().toString()
         findViewById<TextView>(R.id.textViewStopLoss).text = "Stop Loss: " + BTC.getStopLoss().toString()
 
-        TradeManager().addToTradeList(BTC)
+        //TradeManager().addToTradeList(BTC)
 
     }
 
@@ -158,7 +144,7 @@ class MainActivity : AppCompatActivity() {
         fun run() {
             running = true
             while(running) {
-                apiController.apiRequestURL("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
+                //apiController.apiRequestURL("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
                 Thread.sleep(1000)
             }
         }

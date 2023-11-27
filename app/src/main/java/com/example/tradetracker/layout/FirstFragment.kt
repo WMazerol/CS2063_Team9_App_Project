@@ -1,4 +1,4 @@
-package com.example.tradetracker
+package com.example.tradetracker.layout
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

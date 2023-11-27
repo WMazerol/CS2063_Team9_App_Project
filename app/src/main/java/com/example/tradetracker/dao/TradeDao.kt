@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.tradetracker.entity.TradeEntity
+import com.example.tradetracker.entity.Trade
 
 /**
  * This DAO object validates the SQL at compile-time and associates it with a method
@@ -12,14 +12,14 @@ import com.example.tradetracker.entity.TradeEntity
 @Dao
 interface TradeDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE, entity = TradeEntity::class)
-    fun insert(trade: TradeEntity)
+    @Insert(onConflict = OnConflictStrategy.REPLACE, entity = Trade::class)
+    fun insert(trade: Trade)
 
     @Query("SELECT * FROM trades WHERE closingDate is null ORDER BY (shareValue*buyPrice)")
-    abstract fun findLiveTrades(): List<TradeEntity>
+    abstract fun findLiveTrades(): List<Trade>
 
     @Query("SELECT * FROM trades WHERE closingDate not null ORDER BY closingDate")
-    abstract fun findHistoricalTrades(): List<TradeEntity>
+    abstract fun findHistoricalTrades(): List<Trade>
 }
 
 /*

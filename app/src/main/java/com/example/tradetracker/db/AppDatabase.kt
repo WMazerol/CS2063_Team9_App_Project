@@ -6,14 +6,14 @@ import androidx.room.RoomDatabase
 import com.example.tradetracker.dao.TradeDao
 import kotlin.jvm.Volatile
 import androidx.room.Room
-import com.example.tradetracker.entity.TradeEntity
+import com.example.tradetracker.entity.Trade
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 /**
  * Database layer in top of the SQLite database
  */
-@Database(entities = [TradeEntity::class], version = 1, exportSchema = false)
+@Database(entities = [Trade::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun tradeDao(): TradeDao?
 

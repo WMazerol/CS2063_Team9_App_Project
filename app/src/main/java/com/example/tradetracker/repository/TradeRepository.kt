@@ -4,7 +4,7 @@ import com.example.tradetracker.db.AppDatabase.Companion.getDatabase
 import android.app.Application
 import com.example.tradetracker.dao.TradeDao
 import com.example.tradetracker.db.AppDatabase
-import com.example.tradetracker.entity.TradeEntity
+import com.example.tradetracker.entity.Trade
 import java.util.concurrent.Future
 import java.util.concurrent.Callable
 import java.util.concurrent.TimeUnit
@@ -13,7 +13,7 @@ class TradeRepository(application: Application) {
     private val tradeDao: TradeDao? = getDatabase(application).tradeDao()
 
     fun insertRecord(symbol: String, buyPrice: Double, stopLoss: Double, takeProfit: Double, shareValue: Double) {
-        val trade = TradeEntity()
+        val trade = Trade()
         trade.symbol = symbol
         trade.buyPrice = buyPrice
         trade.stopLoss = stopLoss
@@ -22,14 +22,14 @@ class TradeRepository(application: Application) {
         insert(trade)
     }
 
-    private fun insert(trade: TradeEntity) {
+    private fun insert(trade: Trade) {
         // Using a Runnable thread object as there are no return values
         AppDatabase.databaseWriterExecutor.execute { tradeDao!!.insert(trade) }
     }
 
-    fun search(): List<TradeEntity> {
+    fun search(): List<Trade> {
         // Using a Callable thread object as there are return values
-        val dataReadFuture: Future<List<TradeEntity>>? = AppDatabase.databaseWriterExecutor.submit(
+        val dataReadFuture: Future<List<Trade>>? = AppDatabase.databaseWriterExecutor.submit(
             Callable {
                 return@Callable tradeDao!!.findLiveTrades()
             })
