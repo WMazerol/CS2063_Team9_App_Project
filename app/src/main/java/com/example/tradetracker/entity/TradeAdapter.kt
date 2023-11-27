@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.example.tradetracker.R
 import com.example.tradetracker.entity.Trade
 
-class TradeAdapter(context: Context, items: List<TradeEntity>) : ArrayAdapter<TradeEntity>(
+class TradeAdapter(context: Context, items: List<Trade>) : ArrayAdapter<Trade>(
     context, 0, items) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         // Get the data item for this position

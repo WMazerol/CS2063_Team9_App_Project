@@ -12,6 +12,10 @@ class TradeViewModel(application: Application) : AndroidViewModel(application) {
         tradeRepository.insertRecord(symbol, buyPrice, stopLoss, takeProfit, shareValue)
     }
 
+    fun update(trade: Trade) {
+        tradeRepository.updateRecord(trade)
+    }
+
     fun getTrades(live: Int): List<Trade>
     {
         return tradeRepository.tradeList(live)

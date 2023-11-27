@@ -28,6 +28,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.tradetracker.databinding.ActivityMainBinding
 import com.example.tradetracker.entity.Trade
+import com.example.tradetracker.entity.TradeAdapter
 import com.example.tradetracker.entity.TradeManager
 import com.example.tradetracker.layout.TradeModifier
 import com.example.tradetracker.model.TradeViewModel
@@ -49,11 +50,6 @@ class MainActivity : AppCompatActivity() {
     private var live = 1
     private var newTrade = 1
 
-    private var editSymbol: EditText? = null
-    private var editBuyPrice: EditText? = null
-    private var editStopLoss: EditText? = null
-    private var editTakeProfit: EditText? = null
-    private var editShareValue: EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button_trade_modifier_save).setOnClickListener {
             Log.i("Trade Modifier", "Save Trade")
             binding.fab.visibility = View.VISIBLE
-            TradeModifier(this).createNewTrade()
+            TradeModifier(this).saveTrade()
         }
 
         val notificationController = NotificationController(this, this@MainActivity)
@@ -131,16 +127,10 @@ class MainActivity : AppCompatActivity() {
                 newTrade = 0
                 val trade = tradeViewModel.getTrades(live)[position]
 
+                TradeModifier(this).populateEdittextsFromTrade(trade)
+
                 findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.VISIBLE
                 binding.fab.visibility = View.INVISIBLE
-
-                getEdits()
-
-                editSymbol!!.text = trade.symbol as Editable
-                editBuyPrice!!.text = trade.buyPrice as Editable
-                editStopLoss!!.text = trade.stopLoss as Editable
-                editTakeProfit!!.text = trade.takeProfit as Editable
-                editShareValue!!.text = trade.shareValue as Editable
             }
         }
     }
@@ -244,40 +234,10 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
-
-    private fun clearEdits()
-    {
-        getEdits()
-
-        editSymbol!!.text.clear()
-        editBuyPrice!!.text.clear()
-        editStopLoss!!.text.clear()
-        editTakeProfit!!.text.clear()
-        editShareValue!!.text.clear()
-
-        KeyboardUtils.hideKeyboard(this@MainActivity)
-    }
-
-    private fun getEdits()
-    {
-        editSymbol = findViewById(R.id.edittext_trade_modifier_symbol)
-        editBuyPrice =  findViewById(R.id.edittext_trade_modifier_entry)
-        editStopLoss =  findViewById(R.id.edittext_trade_modifier_stop_loss)
-        editTakeProfit =  findViewById(R.id.edittext_trade_modifier_take_profit)
-        editShareValue = findViewById(R.id.edittext_trade_modifier_share_value)
-    }
-
-
     private fun tradeList()
     {
         val results = tradeViewModel.getTrades(live)
 
         listView.adapter = TradeAdapter(this@MainActivity, results)
-    }
-
-
-    private fun addTrade(symbol: String, buyPrice: Double, stopLoss: Double, takeProfit: Double, shareValue: Double)
-    {
-        tradeViewModel.addTrade(symbol, buyPrice, stopLoss, takeProfit, shareValue)
     }
 }

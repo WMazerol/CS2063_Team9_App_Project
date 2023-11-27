@@ -22,12 +22,16 @@ class TradeRepository(application: Application) {
         insert(trade)
     }
 
+    fun updateRecord(trade: Trade) {
+        insert(trade)
+    }
+
     private fun insert(trade: Trade) {
         // Using a Runnable thread object as there are no return values
         AppDatabase.databaseWriterExecutor.execute { tradeDao!!.insert(trade) }
     }
 
-    fun tradeList(live: Int): List<TradeEntity> {
+    fun tradeList(live: Int): List<Trade> {
         // Using a Callable thread object as there are return values
         val dataReadFuture: Future<List<Trade>>? = AppDatabase.databaseWriterExecutor.submit(
             Callable {
