@@ -131,6 +131,20 @@
         android:text="🗑"
         android:textSize="20sp"/>
 
+
+    <Button
+        android:id="@+id/button_trade_modifier_back"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="25dp"
+        android:padding="0dp"
+        android:text="@string/back"
+        android:textSize="20sp"/>
+
+
     <Button
         android:id="@+id/button_trade_modifier_save"
         android:layout_width="wrap_content"
@@ -138,6 +152,17 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="@string/save"
+        android:layout_marginBottom="25dp"/>
+
+
+    <Button
+        android:id="@+id/button_trade_modifier_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/close"
+        android:visibility="invisible"
         android:layout_marginBottom="25dp"/>
 
 </RelativeLayout>

@@ -6,6 +6,7 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="close">Close</string>
     <string name="save">Save</string>
+    <string name="back">Back</string>
 
     <string name="channel_name">Trade Tracker Notification Channel</string>
     <string name="channel_description">Notification channel for TradeTracker</string>

@@ -89,7 +89,7 @@ class TradeModifier(activity: AppCompatActivity) {
         tradeModifying = trade
     }
 
-    private fun clearTradeModifierEditTexts() {
+    fun clearTradeModifierEditTexts() {
         edittextTradeModifierSymbol.text.clear()
         edittextTradeModifierEntry.text.clear()
         edittextTradeModifierShareValue.text.clear()

@@ -74,6 +74,7 @@ class MainActivity : AppCompatActivity() {
             findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.VISIBLE
             Log.i("Trade Modifier", findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility.toString())
             binding.fab.visibility = View.INVISIBLE
+            findViewById<Button>(R.id.button_trade_modifier_close).visibility = View.INVISIBLE
         }
         findViewById<Button>(R.id.button_trade_modifier_delete).setOnClickListener {
             Log.i("Trade Modifier", "Close Layout")
@@ -86,6 +87,21 @@ class MainActivity : AppCompatActivity() {
             Log.i("Trade Modifier", "Save Trade")
             binding.fab.visibility = View.VISIBLE
             TradeModifier(this).saveTrade()
+            KeyboardUtils.hideKeyboard(this)
+        }
+
+        findViewById<Button>(R.id.button_trade_modifier_back).setOnClickListener {
+            Log.i("Trade Modifier", "Back")
+            findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.INVISIBLE
+            binding.fab.visibility = View.VISIBLE
+            TradeModifier(this).clearTradeModifierEditTexts()
+            KeyboardUtils.hideKeyboard(this)
+        }
+
+        findViewById<Button>(R.id.button_trade_modifier_close).setOnClickListener {
+            Log.i("Trade Modifier", "Close Trade")
+            findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.INVISIBLE
+            binding.fab.visibility = View.VISIBLE
             KeyboardUtils.hideKeyboard(this)
         }
 
@@ -128,6 +144,7 @@ class MainActivity : AppCompatActivity() {
 
                 findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.VISIBLE
                 binding.fab.visibility = View.INVISIBLE
+                findViewById<Button>(R.id.button_trade_modifier_close).visibility = View.VISIBLE
             }
         }
     }
