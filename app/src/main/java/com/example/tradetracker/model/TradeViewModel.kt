@@ -16,6 +16,10 @@ class TradeViewModel(application: Application) : AndroidViewModel(application) {
         tradeRepository.deleteTrade(trade)
     }
 
+    fun closeTrade(trade: Trade) {
+        tradeRepository.closeTrade(trade)
+    }
+
     fun update(trade: Trade) {
         tradeRepository.updateRecord(trade)
     }

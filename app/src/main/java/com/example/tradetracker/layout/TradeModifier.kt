@@ -95,7 +95,7 @@ class TradeModifier(activity: AppCompatActivity) {
     }
 
     fun closeExistingTrade(trade: Trade) {
-
+        mTradeViewModel.closeTrade(trade)
     }
 
     private fun clearTradeModifierEditTexts() {

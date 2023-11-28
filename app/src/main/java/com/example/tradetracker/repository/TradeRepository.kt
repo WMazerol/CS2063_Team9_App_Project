@@ -5,6 +5,7 @@ import android.app.Application
 import com.example.tradetracker.dao.TradeDao
 import com.example.tradetracker.db.AppDatabase
 import com.example.tradetracker.entity.Trade
+import java.util.Calendar
 import java.util.concurrent.Future
 import java.util.concurrent.Callable
 import java.util.concurrent.TimeUnit
@@ -19,6 +20,12 @@ class TradeRepository(application: Application) {
         trade.stopLoss = stopLoss
         trade.takeProfit = takeProfit
         trade.shareValue = shareValue
+        insert(trade)
+    }
+
+    fun closeTrade(trade: Trade) {
+        val date = Calendar.YEAR.toString() + "-" + Calendar.MONTH.toString() + "-" + Calendar.DAY_OF_MONTH.toString()
+        trade.closingDate = date
         insert(trade)
     }
 
