@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/popup_background">
+
+    <TextView
+        android:id="@+id/textview_popup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="30dp"
+        android:textSize="22sp"
+        android:textColor="@color/white"
+        android:text="@string/popup_text"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_popup_cancel"
+        android:layout_width="160dp"
+        android:layout_height="70dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textview_popup"
+        android:background="@drawable/popup_background"
+        android:text="@string/popup_cancel"
+        android:textSize="20sp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_popup_confirm"
+        android:layout_width="160dp"
+        android:layout_height="70dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textview_popup"
+        android:background="@drawable/popup_background"
+        android:text="@string/popup_confirm"
+        android:textSize="20sp"/>
+
+</RelativeLayout>

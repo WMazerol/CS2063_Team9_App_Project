@@ -35,7 +35,7 @@ class TradeModifier(activity: AppCompatActivity) {
         clearTradeModifierEditTexts()
     }
 
-    private fun createNewTrade() {
+    fun createNewTrade() {
 
         if(edittextTradeModifierSymbol.text.toString() != "") {
             try {
@@ -46,13 +46,16 @@ class TradeModifier(activity: AppCompatActivity) {
                     edittextTradeModifierTakeProfit.text.toString().toDouble(),
                     edittextTradeModifierShareValue.text.toString().toDouble()
                 )
+
+                clearTradeModifierEditTexts()
+                layoutTradeModifier.visibility = View.INVISIBLE
             } catch (e: NumberFormatException) {
                 Log.i("Trade Modifier", "Empty EditText")
             }
         }
     }
 
-    private fun saveModifiedTrade(trade: Trade) {
+    fun saveModifiedTrade(trade: Trade) {
         trade!!.buyPrice = edittextTradeModifierEntry.text.toString().toDouble()
         trade!!.stopLoss = edittextTradeModifierStopLoss.text.toString().toDouble()
         trade!!.takeProfit = edittextTradeModifierTakeProfit.text.toString().toDouble()
@@ -60,13 +63,6 @@ class TradeModifier(activity: AppCompatActivity) {
 
         mTradeViewModel.update(trade!!)
         Log.i("Trade Modifier", "ID: "+trade!!.id)
-    }
-
-    fun saveTrade(trade: Trade) {
-        if(trade == null)
-            createNewTrade()
-        else
-            saveModifiedTrade(trade)
 
         clearTradeModifierEditTexts()
         layoutTradeModifier.visibility = View.INVISIBLE

@@ -21,5 +21,8 @@
 
     <string name="tab_history">History</string>
     <string name="tab_live">Live</string>
+    <string name="popup_text">Would You Like To Delete This Trade?</string>
+    <string name="popup_cancel">Cancel</string>
+    <string name="popup_confirm">Confirm</string>
 
 </resources>
