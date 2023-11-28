@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
             Log.i("Trade Modifier", "Save Trade")
             binding.fab.visibility = View.VISIBLE
 
-            TradeModifier(this).saveTrade()
+            TradeModifier(this).saveTrade(selectedTrade!!)
 
             KeyboardUtils.hideKeyboard(this)
             refreshTradeList()
