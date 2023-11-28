@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
 
     private val buy = 27500
     private var live = 1
+    private var selectedTrade: Trade? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,34 +76,57 @@ class MainActivity : AppCompatActivity() {
             Log.i("Trade Modifier", findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility.toString())
             binding.fab.visibility = View.INVISIBLE
             findViewById<Button>(R.id.button_trade_modifier_close).visibility = View.INVISIBLE
+
+            selectedTrade = null
         }
+
         findViewById<Button>(R.id.button_trade_modifier_delete).setOnClickListener {
             Log.i("Trade Modifier", "Close Layout")
             findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.INVISIBLE
             binding.fab.visibility = View.VISIBLE
-            TradeModifier(this).closeNewTrade()
+
+            if (selectedTrade == null)
+            {
+                TradeModifier(this).backFromTrade()
+            }
+            else
+            {
+                TradeModifier(this).deleteTrade(selectedTrade!!)
+            }
+
             KeyboardUtils.hideKeyboard(this)
+            refreshTradeList()
         }
+
         findViewById<Button>(R.id.button_trade_modifier_save).setOnClickListener {
             Log.i("Trade Modifier", "Save Trade")
             binding.fab.visibility = View.VISIBLE
+
             TradeModifier(this).saveTrade()
+
             KeyboardUtils.hideKeyboard(this)
+            refreshTradeList()
         }
 
         findViewById<Button>(R.id.button_trade_modifier_back).setOnClickListener {
             Log.i("Trade Modifier", "Back")
             findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.INVISIBLE
             binding.fab.visibility = View.VISIBLE
-            TradeModifier(this).clearTradeModifierEditTexts()
+
+            TradeModifier(this).backFromTrade()
+
             KeyboardUtils.hideKeyboard(this)
         }
 
         findViewById<Button>(R.id.button_trade_modifier_close).setOnClickListener {
             Log.i("Trade Modifier", "Close Trade")
             findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.INVISIBLE
+
             binding.fab.visibility = View.VISIBLE
+            TradeModifier(this).closeExistingTrade(selectedTrade!!)
+
             KeyboardUtils.hideKeyboard(this)
+            refreshTradeList()
         }
 
         val notificationController = NotificationController(this, this@MainActivity)
@@ -138,9 +162,9 @@ class MainActivity : AppCompatActivity() {
         listView.setOnItemClickListener { parent, view, position, id ->
             if (live == 1)
             {
-                val trade = tradeViewModel.getTrades(live)[position]
+                selectedTrade = tradeViewModel.getTrades(live)[position]
 
-                TradeModifier(this).populateEdittextsFromTrade(trade)
+                TradeModifier(this).populateEdittextsFromTrade(selectedTrade!!)
 
                 findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.VISIBLE
                 binding.fab.visibility = View.INVISIBLE
@@ -251,7 +275,7 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
-    fun refreshTradeList()
+    private fun refreshTradeList()
     {
         val results = tradeViewModel.getTrades(live)
 

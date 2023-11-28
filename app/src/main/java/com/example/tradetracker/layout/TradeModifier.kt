@@ -32,7 +32,7 @@ class TradeModifier(activity: AppCompatActivity) {
 
     private var tradeModifying: Trade? = null
 
-    fun closeNewTrade() {
+    fun backFromTrade() {
         layoutTradeModifier.visibility = View.INVISIBLE
         clearTradeModifierEditTexts()
     }
@@ -74,8 +74,13 @@ class TradeModifier(activity: AppCompatActivity) {
             createNewTrade()
         else
             saveModifiedTrade()
+    }
 
-        MainActivity().refreshTradeList()
+    fun deleteTrade(trade: Trade) {
+        mTradeViewModel.delete(trade)
+
+        clearTradeModifierEditTexts()
+        tradeModifying = null
     }
 
     fun populateEdittextsFromTrade(trade: Trade) {
@@ -89,7 +94,11 @@ class TradeModifier(activity: AppCompatActivity) {
         tradeModifying = trade
     }
 
-    fun clearTradeModifierEditTexts() {
+    fun closeExistingTrade(trade: Trade) {
+
+    }
+
+    private fun clearTradeModifierEditTexts() {
         edittextTradeModifierSymbol.text.clear()
         edittextTradeModifierEntry.text.clear()
         edittextTradeModifierShareValue.text.clear()

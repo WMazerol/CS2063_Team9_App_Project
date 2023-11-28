@@ -31,6 +31,15 @@ class TradeRepository(application: Application) {
         AppDatabase.databaseWriterExecutor.execute { tradeDao!!.insert(trade) }
     }
 
+    fun deleteTrade(trade: Trade) {
+        delete(trade.id)
+    }
+
+    private fun delete(id: Int) {
+        // Using a Runnable thread object as there are no return values
+        AppDatabase.databaseWriterExecutor.execute { tradeDao!!.deleteTrade(id) }
+    }
+
     fun tradeList(live: Int): List<Trade> {
         // Using a Callable thread object as there are return values
         val dataReadFuture: Future<List<Trade>>? = AppDatabase.databaseWriterExecutor.submit(

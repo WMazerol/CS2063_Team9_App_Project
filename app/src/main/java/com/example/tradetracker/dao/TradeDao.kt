@@ -20,6 +20,9 @@ interface TradeDao {
 
     @Query("SELECT * FROM trades WHERE closingDate not null ORDER BY closingDate")
     abstract fun findHistoricalTrades(): List<Trade>
+
+    @Query("DELETE FROM trades WHERE id is (:id)")
+    abstract fun deleteTrade(id: Int)
 }
 
 /*
