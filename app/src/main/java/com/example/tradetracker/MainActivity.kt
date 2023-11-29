@@ -8,18 +8,17 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.os.SystemClock
-import android.text.Editable
 import android.util.Log
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.AdapterView.OnItemClickListener
 import android.widget.Button
-import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.ListView
+import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -29,11 +28,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.tradetracker.databinding.ActivityMainBinding
 import com.example.tradetracker.entity.Trade
 import com.example.tradetracker.entity.TradeAdapter
-import com.example.tradetracker.entity.TradeManager
 import com.example.tradetracker.layout.TradeModifier
 import com.example.tradetracker.model.TradeViewModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,9 +42,11 @@ class MainActivity : AppCompatActivity() {
     private val apiController = APIController(this@MainActivity)
     private lateinit var tradeViewModel: TradeViewModel
     private lateinit var listView: ListView
+    private lateinit var popupMenu: View
 
     private val buy = 27500
     private var live = 1
+    private var selectedTrade: Trade? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,19 +75,65 @@ class MainActivity : AppCompatActivity() {
             findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.VISIBLE
             Log.i("Trade Modifier", findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility.toString())
             binding.fab.visibility = View.INVISIBLE
+            findViewById<Button>(R.id.button_trade_modifier_close).visibility = View.INVISIBLE
+
+            selectedTrade = null
         }
+
         findViewById<Button>(R.id.button_trade_modifier_delete).setOnClickListener {
             Log.i("Trade Modifier", "Close Layout")
             findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.INVISIBLE
             binding.fab.visibility = View.VISIBLE
-            TradeModifier(this).closeNewTrade()
+
+            if (selectedTrade == null)
+            {
+                TradeModifier(this).backFromTrade()
+            }
+            else
+            {
+                TradeModifier(this).deleteTrade(selectedTrade!!)
+            }
+
             KeyboardUtils.hideKeyboard(this)
+            refreshTradeList()
         }
+
         findViewById<Button>(R.id.button_trade_modifier_save).setOnClickListener {
             Log.i("Trade Modifier", "Save Trade")
             binding.fab.visibility = View.VISIBLE
-            TradeModifier(this).saveTrade()
+
+            if (selectedTrade == null)
+            {
+                TradeModifier(this).createNewTrade()
+            }
+            else
+            {
+                TradeModifier(this).saveModifiedTrade(selectedTrade!!)
+            }
+
             KeyboardUtils.hideKeyboard(this)
+            refreshTradeList()
+        }
+
+        findViewById<Button>(R.id.button_trade_modifier_back).setOnClickListener {
+            Log.i("Trade Modifier", "Back")
+            findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.INVISIBLE
+            binding.fab.visibility = View.VISIBLE
+
+            TradeModifier(this).backFromTrade()
+
+            KeyboardUtils.hideKeyboard(this)
+        }
+
+        findViewById<Button>(R.id.button_trade_modifier_close).setOnClickListener {
+            Log.i("Trade Modifier", "Close Trade")
+            findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.INVISIBLE
+
+            binding.fab.visibility = View.VISIBLE
+            TradeModifier(this).closeExistingTrade(selectedTrade!!)
+
+            KeyboardUtils.hideKeyboard(this)
+            refreshTradeList()
         }
 
         val notificationController = NotificationController(this, this@MainActivity)
@@ -113,19 +158,47 @@ class MainActivity : AppCompatActivity() {
         //GlobalScope.launch{println(">"+apiController.apiRequestURLWithResponse("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"))}
         findViewById<TextView>(R.id.textViewSymbol).text = "BTCUSDT"
 
+        popupMenu = layoutInflater.inflate(R.layout.popup_window, null)
+
+        val width = LinearLayout.LayoutParams.WRAP_CONTENT
+        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+        val focusable = true
+
+        val popupWindow = PopupWindow(popupMenu, width, height, focusable)
+
         listView = findViewById(R.id.list_view)
         refreshTradeList()
 
-        listView.setOnItemClickListener { parent, view, position, id ->
+        listView.setOnItemClickListener { _, _, position, _ ->
             if (live == 1)
             {
-                val trade = tradeViewModel.getTrades(live)[position]
+                selectedTrade = tradeViewModel.getTrades(live)[position]
 
-                TradeModifier(this).populateEdittextsFromTrade(trade)
+                TradeModifier(this).populateEdittextsFromTrade(selectedTrade!!)
 
                 findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.VISIBLE
                 binding.fab.visibility = View.INVISIBLE
+                findViewById<Button>(R.id.button_trade_modifier_close).visibility = View.VISIBLE
             }
+        }
+
+        listView.setOnItemLongClickListener { _, view, position, _ ->
+            if (live == 1) {
+                selectedTrade = tradeViewModel.getTrades(live)[position]
+
+                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+            }
+            return@setOnItemLongClickListener true
+        }
+
+        popupMenu.findViewById<Button>(R.id.button_popup_cancel).setOnClickListener {
+            popupWindow.dismiss()
+        }
+
+        popupMenu.findViewById<Button>(R.id.button_popup_confirm).setOnClickListener {
+            TradeModifier(this).deleteTrade(selectedTrade!!)
+            popupWindow.dismiss()
+            refreshTradeList()
         }
     }
 
@@ -231,7 +304,7 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
-    fun refreshTradeList()
+    private fun refreshTradeList()
     {
         val results = tradeViewModel.getTrades(live)
 

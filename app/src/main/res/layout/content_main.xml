@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:id="@+id/list_view"
         android:clickable="true"
+        android:longClickable="true"
         android:layout_height="match_parent" />
 
     <fragment

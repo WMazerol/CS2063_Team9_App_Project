@@ -5,6 +5,7 @@ import android.app.Application
 import com.example.tradetracker.dao.TradeDao
 import com.example.tradetracker.db.AppDatabase
 import com.example.tradetracker.entity.Trade
+import java.util.Calendar
 import java.util.concurrent.Future
 import java.util.concurrent.Callable
 import java.util.concurrent.TimeUnit
@@ -22,6 +23,12 @@ class TradeRepository(application: Application) {
         insert(trade)
     }
 
+    fun closeTrade(trade: Trade) {
+        val date = Calendar.YEAR.toString() + "-" + Calendar.MONTH.toString() + "-" + Calendar.DAY_OF_MONTH.toString()
+        trade.closingDate = date
+        insert(trade)
+    }
+
     fun updateRecord(trade: Trade) {
         insert(trade)
     }
@@ -29,6 +36,15 @@ class TradeRepository(application: Application) {
     private fun insert(trade: Trade) {
         // Using a Runnable thread object as there are no return values
         AppDatabase.databaseWriterExecutor.execute { tradeDao!!.insert(trade) }
+    }
+
+    fun deleteTrade(trade: Trade) {
+        delete(trade.id)
+    }
+
+    private fun delete(id: Int) {
+        // Using a Runnable thread object as there are no return values
+        AppDatabase.databaseWriterExecutor.execute { tradeDao!!.deleteTrade(id) }
     }
 
     fun tradeList(live: Int): List<Trade> {
