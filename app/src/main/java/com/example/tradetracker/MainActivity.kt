@@ -53,13 +53,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        alarmManager = (getSystemService(Context.ALARM_SERVICE) as? AlarmManager)!!
-        alarmIntent = Intent(this@MainActivity, AlarmReceiver::class.java).let { intent ->
-            PendingIntent.getBroadcast(this@MainActivity, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-        }
-
-        tradeViewModel = ViewModelProvider(this)[TradeViewModel::class.java]
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -68,6 +61,15 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+
+        tradeViewModel = ViewModelProvider(this)[TradeViewModel::class.java]
+
+        alarmManager = (getSystemService(Context.ALARM_SERVICE) as? AlarmManager)!!
+        alarmIntent = Intent(this@MainActivity, AlarmReceiver::class.java).let { intent ->
+            PendingIntent.getBroadcast(this@MainActivity, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        }
+
 
         binding.fab.setOnClickListener { view ->
             Log.i("Trade Modifier", "Open Layout")
@@ -110,11 +112,6 @@ class MainActivity : AppCompatActivity() {
         
         //GlobalScope.launch{println(">"+apiController.apiRequestURLWithResponse("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"))}
         findViewById<TextView>(R.id.textViewSymbol).text = "BTCUSDT"
-
-        val BTC: Trade_Old = Trade_Old(0, "BTCUSDT", 27500.0, 30000.00, 30000.0, 1.0)
-        findViewById<TextView>(R.id.textViewBuyPrice).text = "Buy Price: " + BTC.getBuyPrice().toString()
-        findViewById<TextView>(R.id.textViewTakeProfit).text = "Take Profit: " + BTC.getTakeProfit().toString()
-        findViewById<TextView>(R.id.textViewStopLoss).text = "Stop Loss: " + BTC.getStopLoss().toString()
 
         listView = findViewById(R.id.list_view)
         refreshTradeList()
@@ -239,5 +236,22 @@ class MainActivity : AppCompatActivity() {
         val results = tradeViewModel.getTrades(live)
 
         listView.adapter = TradeAdapter(this@MainActivity, results)
+    }
+
+    fun getTradesPastStopOrTake(): ArrayList<Trade> {
+        var trades: ArrayList<Trade> = ArrayList<Trade>()
+
+        if(::tradeViewModel.isInitialized){
+            for(trade: Trade in tradeViewModel.getTrades(live)) {
+                //trade.lastPrice = APIController().apiRequestURLWithResponse(APIController().binanceGetPriceURL+trade.symbol)
+                println(APIController(MainActivity()).apiRequestURLWithResponse(APIController(MainActivity()).binanceGetPriceURL+trade.symbol))
+                if(trade.stopLoss!! >= trade.lastPrice!! || trade.takeProfit!! <= trade.lastPrice!!) {
+                    trades.add(trade)
+                }
+            }
+        } else
+            Log.i("TradeTracker - Main", "tradeViewModel Not Initialized")
+
+        return trades
     }
 }

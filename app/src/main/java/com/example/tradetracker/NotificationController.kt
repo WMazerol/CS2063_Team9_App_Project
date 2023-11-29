@@ -12,9 +12,6 @@ import androidx.core.app.ActivityCompat
 
 class NotificationController(private val context: Context, private val activity: Activity) {
 
-    //contruct(){ }
-
-
     fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = context.getString(R.string.channel_name)

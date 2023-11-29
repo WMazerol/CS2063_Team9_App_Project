@@ -12,18 +12,23 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.ViewModelProvider
+import com.example.tradetracker.entity.Trade
 import com.example.tradetracker.entity.TradeManager
+import com.example.tradetracker.model.TradeViewModel
 import java.time.Duration
 import java.time.LocalDateTime
 
 class AlarmReceiver : BroadcastReceiver() {
 
+    //private var tradeViewModel = ViewModelProvider(MainActivity())[TradeViewModel::class.java]
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onReceive(context: Context, intent: Intent) {
-        // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
+
         Log.i("TradeTracker - AlarmReceiver", "PLACEHOLDER")
 
-        val tradesBeyondStopOrTake = TradeManager().getTradesPastStopOrTake()
+        val tradesBeyondStopOrTake = MainActivity().getTradesPastStopOrTake()
 
         for(trade in tradesBeyondStopOrTake) {
             if(Duration.between(trade.formatStringToDate(trade.lastNotified!!), LocalDateTime.now()).toHours() > 2) {
@@ -43,6 +48,7 @@ class AlarmReceiver : BroadcastReceiver() {
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
 
+                // Dispatch Notification
                 with(NotificationManagerCompat.from(context)) {
                     if (ActivityCompat.checkSelfPermission(
                             context,

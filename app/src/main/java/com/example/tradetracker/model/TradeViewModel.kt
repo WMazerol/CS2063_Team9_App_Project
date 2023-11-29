@@ -2,7 +2,10 @@ package com.example.tradetracker.model
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.example.tradetracker.APIController
+import com.example.tradetracker.MainActivity
 import com.example.tradetracker.entity.Trade
+import com.example.tradetracker.entity.TradeManager
 import com.example.tradetracker.repository.TradeRepository
 
 class TradeViewModel(application: Application) : AndroidViewModel(application) {
