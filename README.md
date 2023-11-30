@@ -43,10 +43,10 @@
   * **Adding a New Tab for stocks:**  
         At the moment, the app is geared towards cryptocurrency but a new tab will be in the works to allow you to track stock based trades as well. This will have all the same functionality as the crypto trades.
 
-  * **Option to Autofill Crypto/Stock ticker:**
+  * **Option to Autofill Crypto/Stock ticker:**  
         This feature will give you options to autofill the trade ticker as you start typing the ticker name. For example, writing 'S' in the ticker text field under add trade should give you the option to autofill the ticker as 'SOLUSDT', 'SANDUSDT', 'SHIBUSDT' 
 
-  * **Currency Trading Pair:**
+  * **Currency Trading Pair:**  
        At the moment, the trading assests can only be traded against US Dollar. In a future iteration for this app, we aim to implement the functionality to track tickers/stocks against other currency pairs. For example BTCEUR (against Euros) or BTCYEN (against Japanese Yen) etc.
 
 ### Supported API levels:
