@@ -23,6 +23,7 @@
  * **Notification System**  
        While updating the current prices of the trade; the system will send out notifications to your device to update you if the current price of the coin falls below the designated stop loss or rises to greater than
        the designated take profit. These notifications will be send out roughly once every minute untill the trade is either closed or the stop loss/take profit is updated. 
+
    
 #### Work in Progress:
   * **UI Polishing**  
@@ -36,6 +37,7 @@
         Currently, the Notification System is functional only while the app is running on the device. We are currently in the process of adjusting the notification system to work
         off the device's boot completed intent, dispatched by the OS. This will allow the notification system and price updating to be continuously run in the background, battery life
         permitting.
+
     
 #### Future Updates:
   * **Adding a New Tab for stocks:**  
