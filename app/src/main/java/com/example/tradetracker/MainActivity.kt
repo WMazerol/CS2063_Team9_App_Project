@@ -192,7 +192,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         popupMenu.findViewById<Button>(R.id.button_popup_confirm).setOnClickListener {
-            TradeModifier(this).deleteTrade(selectedTrade!!)
+            TradeModifier(this).closeExistingTrade(selectedTrade!!)
             popupWindow.dismiss()
             refreshTradeList()
         }
