@@ -45,4 +45,8 @@ class TradeViewModel(application: Application) : AndroidViewModel(application) {
     {
         tradeRepository.insertRecord(symbol, buyPrice, stopLoss, takeProfit, shareValue)
     }
+
+    fun getTradesPastStopOrTake(): List<Trade> {
+        return tradeRepository.getTradesPastStopOrTake()
+    }
 }

@@ -46,8 +46,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tradeViewModel: TradeViewModel
     private lateinit var listView: ListView
     private lateinit var popupMenu: View
-
-    private val buy = 27500
     private var live = 1
     private var selectedTrade: Trade? = null
 
@@ -155,9 +153,6 @@ class MainActivity : AppCompatActivity() {
         val intentFilter = IntentFilter()
         intentFilter.addAction(Intent.ACTION_POWER_CONNECTED)
         intentFilter.addAction(Intent.ACTION_POWER_DISCONNECTED)
-        
-        //GlobalScope.launch{println(">"+apiController.apiRequestURLWithResponse("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"))}
-        findViewById<TextView>(R.id.textViewSymbol).text = "BTCUSDT"
 
         popupMenu = layoutInflater.inflate(R.layout.popup_window, null)
 
@@ -208,11 +203,9 @@ class MainActivity : AppCompatActivity() {
             if(intent.action.equals(Intent.ACTION_POWER_DISCONNECTED)) {
                 Log.i("TradeTracker - Main", "Battery Low")
                 alarmIntent.let { alarmManager.cancel(it) }
-                //Toast.makeText(context, "Battery Low", Toast.LENGTH_LONG).show()
             } else if(intent.action.equals(Intent.ACTION_POWER_CONNECTED)) {
                 Log.i("TradeTracker - Main", "Battery Okay")
                 setAlarmIntent()
-                //Toast.makeText(context, "Battery Okay", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -325,20 +318,4 @@ class MainActivity : AppCompatActivity() {
         tradeViewModel.updateLastPrice(symbol, price)
     }
 
-    fun getTradesPastStopOrTake(): ArrayList<Trade> {
-        var trades: ArrayList<Trade> = ArrayList<Trade>()
-
-        if(::tradeViewModel.isInitialized){
-            for(trade: Trade in tradeViewModel.getTrades(live)) {
-                //trade.lastPrice = APIController().apiRequestURLWithResponse(APIController().binanceGetPriceURL+trade.symbol)
-                println(APIController(MainActivity()).apiRequestURLWithResponse(APIController(MainActivity()).binanceGetPriceURL+trade.symbol))
-                if(trade.stopLoss!! >= trade.lastPrice!! || trade.takeProfit!! <= trade.lastPrice!!) {
-                    trades.add(trade)
-                }
-            }
-        } else
-            Log.i("TradeTracker - Main", "tradeViewModel Not Initialized")
-
-        return trades
-    }
 }

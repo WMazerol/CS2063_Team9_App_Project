@@ -69,7 +69,6 @@ class TradeModifier(activity: AppCompatActivity) {
         trade!!.shareValue = edittextTradeModifierShareValue.text.toString().toDouble()
 
         mTradeViewModel.update(trade!!)
-        Log.i("Trade Modifier", "ID: "+trade!!.id)
 
         clearTradeModifierEditTexts()
         layoutTradeModifier.visibility = View.INVISIBLE

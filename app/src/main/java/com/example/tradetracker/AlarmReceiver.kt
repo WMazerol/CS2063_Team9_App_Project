@@ -1,6 +1,7 @@
 package com.example.tradetracker
 
 import android.Manifest
+import android.app.Application
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -16,22 +17,35 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.tradetracker.entity.Trade
 import com.example.tradetracker.entity.TradeManager
 import com.example.tradetracker.model.TradeViewModel
+import com.example.tradetracker.repository.TradeRepository
 import java.time.Duration
 import java.time.LocalDateTime
 
+private const val NOTIFICATION_TIME_DELAY_HOURS = 0 //Should be 2 (for 2 hours) in production, 0 is for demo
+
 class AlarmReceiver : BroadcastReceiver() {
 
-    //private var tradeViewModel = ViewModelProvider(MainActivity())[TradeViewModel::class.java]
+    //private val tradeRepository: TradeRepository = TradeRepository(MainActivity().application)
+    private val apiController: APIController = APIController(MainActivity())
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onReceive(context: Context, intent: Intent) {
+        val tradeRepository = TradeRepository(context.applicationContext as Application)
 
-        Log.i("TradeTracker - AlarmReceiver", "PLACEHOLDER")
+        println("Alarm Received")
 
-        val tradesBeyondStopOrTake = MainActivity().getTradesPastStopOrTake()
+        for(symbol in tradeRepository.distinctSymbols()) {
+            tradeRepository.updateLastPrice(symbol, apiController.getBinancePrice(symbol))
+        }
 
-        for(trade in tradesBeyondStopOrTake) {
-            if(Duration.between(trade.formatStringToDate(trade.lastNotified!!), LocalDateTime.now()).toHours() > 2) {
+        for(trade in tradeRepository.getTradesPastStopOrTake()) {
+
+            if(trade.lastNotified == null)
+                trade.refreshLastNotified()
+
+            println(trade.lastNotified!!)
+
+            if(trade.lastNotified == null || Duration.between(trade.formatStringToDate(trade.lastNotified!!), LocalDateTime.now()).toHours() >= NOTIFICATION_TIME_DELAY_HOURS) {
 
                 val openIntent = Intent(context, MainActivity::class.java)
                 val pendingIntent: PendingIntent =

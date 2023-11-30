@@ -2,9 +2,12 @@ package com.example.tradetracker.repository
 
 import com.example.tradetracker.db.AppDatabase.Companion.getDatabase
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.tradetracker.dao.TradeDao
 import com.example.tradetracker.db.AppDatabase
 import com.example.tradetracker.entity.Trade
+import java.time.LocalDateTime
 import java.util.Calendar
 import java.util.concurrent.Future
 import java.util.concurrent.Callable
@@ -13,6 +16,7 @@ import java.util.concurrent.TimeUnit
 class TradeRepository(application: Application) {
     private val tradeDao: TradeDao? = getDatabase(application).tradeDao()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun insertRecord(symbol: String, buyPrice: Double, stopLoss: Double, takeProfit: Double, shareValue: Double) {
         val trade = Trade()
         trade.symbol = symbol
@@ -20,6 +24,7 @@ class TradeRepository(application: Application) {
         trade.stopLoss = stopLoss
         trade.takeProfit = takeProfit
         trade.shareValue = shareValue
+        trade.lastNotified = trade.formatDateToString(LocalDateTime.now())
         insert(trade)
     }
 
@@ -54,7 +59,7 @@ class TradeRepository(application: Application) {
             })
 
         while (!dataReadFuture!!.isDone) {// Simulating another task
-            TimeUnit.SECONDS.sleep(1)
+            TimeUnit.MILLISECONDS.sleep(10)
         }
 
         return dataReadFuture.get()
@@ -83,5 +88,18 @@ class TradeRepository(application: Application) {
         }
 
         return dataReadFuture.get()// as List<Item>
+    }
+
+    fun getTradesPastStopOrTake(): List<Trade> {
+        val dataReadFuture: Future<List<Trade>>? = AppDatabase.databaseWriterExecutor.submit(
+            Callable {
+                return@Callable tradeDao!!.getTradesPastStopOrTake()
+            })
+
+        while (!dataReadFuture!!.isDone) {// Simulating another task
+            TimeUnit.MILLISECONDS.sleep(10)
+        }
+
+        return dataReadFuture.get()
     }
 }

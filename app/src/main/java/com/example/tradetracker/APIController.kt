@@ -22,31 +22,7 @@ class APIController(private val activity: MainActivity) {
     @JvmField
     val binanceGetPriceURL = "https://api.binance.com/api/v3/ticker/price?symbol="
 
-    private val buy = 27500 // For Testing
-
-//    fun apiRequestURL(url: String) {
-//        val request = Request.Builder()
-//            .url(url)
-//            .build()
-//
-//        client.newCall(request).enqueue(object : Callback {
-//            override fun onFailure(call: Call, e: IOException) {}
-//            override fun onResponse(call: Call, response: Response) {
-//                val body = response.body()?.string()
-//                //println("API TEST: $body")
-//                activity.runOnUiThread {
-//                    //String.format((if(JSONObject(body).getString("price").toDouble() >= 1) "%.3d" else "%.5d"),
-//                    activity.findViewById<TextView>(R.id.textViewPrice).text = JSONObject(body).getString("price")+
-//                            "("+String.format("%.2f", (JSONObject(body).getString("price").toDouble()/buy-1)*100)+"%)"
-//                }
-//                var trades: ArrayList<Trade> = TradeManager().getTrades("BTCUSDT")
-//                trades[0].lastPrice = JSONObject(body).getString("price").toDouble()
-//            }
-//        })
-//    }
-
-    fun apiRequestURLWithResponse(url: String): String? {
-//        GlobalScope.launch  {
+    fun apiRequestURLWithResponse(url: String): String {
             val request = Request.Builder()
                 .url(url)
                 .build()
@@ -58,9 +34,7 @@ class APIController(private val activity: MainActivity) {
                 //println("API TEST w/resp: $body")
                 return@use body
             }
-//
-//            //return@launch responseBody
-//        }
+
         return responseBody
     }
 

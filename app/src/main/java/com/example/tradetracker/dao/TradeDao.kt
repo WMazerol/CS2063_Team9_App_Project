@@ -24,11 +24,14 @@ interface TradeDao {
     @Query("DELETE FROM trades WHERE id is (:id)")
     abstract fun deleteTrade(id: Int)
 
-    @Query("SELECT DISTINCT symbol FROM trades WHERE closingDate is null")
+    @Query("SELECT DISTINCT symbol FROM trades WHERE closingDate is null AND closingDate is null")
     abstract fun getDistinctSymbols(): List<String>
 
-    @Query("UPDATE trades SET lastPrice = (:price) WHERE symbol is (:symbol)")
+    @Query("UPDATE trades SET lastPrice = (:price) WHERE symbol is (:symbol) AND closingDate is null")
     abstract fun updateLastPrice(symbol: String, price: Double)
+
+    @Query("SELECT * FROM trades WHERE (lastPrice > takeProfit OR lastPrice < stopLoss) AND closingDate is null")
+    abstract fun getTradesPastStopOrTake(): List<Trade>
 }
 
 /*

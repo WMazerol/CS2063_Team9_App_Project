@@ -1,5 +1,6 @@
 package com.example.tradetracker.entity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.database.DataSetObserver
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.example.tradetracker.entity.Trade
 
 class TradeAdapter(context: Context, items: List<Trade>) : ArrayAdapter<Trade>(
     context, 0, items) {
+    @SuppressLint("SetTextI18n")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         // Get the data item for this position
         val trade = getItem(position)
@@ -30,19 +32,28 @@ class TradeAdapter(context: Context, items: List<Trade>) : ArrayAdapter<Trade>(
         val tvTakeProfit = currView.findViewById<TextView>(R.id.textViewTakeProfit)
 
         tvSymbol.text = trade!!.symbol
-        tvPrice.text = trade!!.lastPrice.toString()
         tvBuyPrice.text = trade!!.buyPrice.toString()
         tvStopLoss.text = trade!!.stopLoss.toString()
         tvTakeProfit.text = trade!!.takeProfit.toString()
 
-        //Set colour of current price TextView
-        if(trade!!.lastPrice!! < trade.buyPrice!!)
-            tvPrice.setTextColor(context.resources.getColor(R.color.red_text, context.resources.newTheme()))
-        else if(trade!!.lastPrice == trade!!.buyPrice)
-            tvPrice.setTextColor(context.resources.getColor(R.color.white, context.resources.newTheme()))
-        else
-            tvPrice.setTextColor(context.resources.getColor(R.color.green_text, context.resources.newTheme()))
+        try {
+            tvPrice.text = trade.lastPrice.toString() +
+                    "(${
+                        String.format(
+                            "%.2f",
+                            (trade!!.lastPrice!!.div(trade!!.buyPrice!!) - 1) * 100
+                        )
+                    }%)"
 
+            //Set colour of current price TextView
+            if(trade!!.lastPrice!! < trade.buyPrice!!)
+                tvPrice.setTextColor(context.resources.getColor(R.color.red_text, context.resources.newTheme()))
+            else if(trade!!.lastPrice == trade!!.buyPrice)
+                tvPrice.setTextColor(context.resources.getColor(R.color.white, context.resources.newTheme()))
+            else
+                tvPrice.setTextColor(context.resources.getColor(R.color.green_text, context.resources.newTheme()))
+
+        } catch(e: NullPointerException) {}
 
         // Return the completed view to render on screen
         return currView

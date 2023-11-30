@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey
 import java.sql.Date
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Entity(tableName = "trades") // Represents a SQLite table
  class Trade {
@@ -77,13 +78,14 @@ import java.time.LocalDateTime
         lastNotified = formatDateToString(LocalDateTime.now())
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun formatDateToString(date: LocalDateTime) : String {
-        return SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(date)
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(date)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun formatStringToDate(date: String) : LocalDateTime {
-        return SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(date) as LocalDateTime
+        return LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
     }
 
 }
