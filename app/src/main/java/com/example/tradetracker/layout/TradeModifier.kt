@@ -1,6 +1,5 @@
 package com.example.tradetracker.layout
 
-import android.text.Editable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -10,11 +9,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.tradetracker.APIController
-import com.example.tradetracker.KeyboardUtils
 import com.example.tradetracker.MainActivity
 import com.example.tradetracker.R
 import com.example.tradetracker.entity.Trade
-import com.example.tradetracker.entity.TradeManager
 import com.example.tradetracker.model.TradeViewModel
 import java.lang.NumberFormatException
 
@@ -42,10 +39,10 @@ class TradeModifier(activity: AppCompatActivity) {
 
     fun createNewTrade() {
         if(edittextTradeModifierSymbol.text.toString() != "" &&
-            apiController.checkSymbolIsValid(edittextTradeModifierSymbol.text.toString())) {
+            apiController.checkSymbolIsValid(edittextTradeModifierSymbol.text.toString().uppercase())) {
             try {
                 mTradeViewModel.insert(
-                    edittextTradeModifierSymbol.text.toString(),
+                    edittextTradeModifierSymbol.text.toString().uppercase(),
                     edittextTradeModifierEntry.text.toString().toDouble(),
                     edittextTradeModifierStopLoss.text.toString().toDouble(),
                     edittextTradeModifierTakeProfit.text.toString().toDouble(),

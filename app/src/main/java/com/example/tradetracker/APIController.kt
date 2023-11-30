@@ -1,17 +1,7 @@
 package com.example.tradetracker
 
-import android.util.JsonReader
-import android.widget.TextView
-import com.example.tradetracker.entity.Trade
-import com.example.tradetracker.entity.TradeManager
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import okhttp3.Call
-import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
 

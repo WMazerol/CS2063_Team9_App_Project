@@ -8,15 +8,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.lifecycle.ViewModelProvider
-import com.example.tradetracker.entity.Trade
-import com.example.tradetracker.entity.TradeManager
-import com.example.tradetracker.model.TradeViewModel
 import com.example.tradetracker.repository.TradeRepository
 import java.time.Duration
 import java.time.LocalDateTime
