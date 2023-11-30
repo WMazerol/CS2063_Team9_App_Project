@@ -1,8 +1,12 @@
 package com.example.tradetracker
 
+import android.util.JsonReader
 import android.widget.TextView
 import com.example.tradetracker.entity.Trade
 import com.example.tradetracker.entity.TradeManager
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -51,13 +55,26 @@ class APIController(private val activity: MainActivity) {
                 if (!it.isSuccessful) throw IOException("Unexpected code $it")
 
                 val body = it.body()!!.string()
-                println("API TEST w/resp: $body")
+                //println("API TEST w/resp: $body")
                 return@use body
             }
 //
 //            //return@launch responseBody
 //        }
         return responseBody
+    }
+
+    fun getBinancePrice(symbol: String) : Double {
+        return(JSONObject(apiRequestURLWithResponse(binanceGetPriceURL+symbol)).getDouble("price"))
+    }
+
+    fun checkSymbolIsValid(symbol: String) : Boolean {
+        return try{
+            return JSONObject(apiRequestURLWithResponse(binanceGetPriceURL + symbol)).getString("symbol")
+                    .equals(symbol)
+        } catch (e: IOException) {
+            false
+        }
     }
 
 }

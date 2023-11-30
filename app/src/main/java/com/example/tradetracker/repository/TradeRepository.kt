@@ -47,6 +47,23 @@ class TradeRepository(application: Application) {
         AppDatabase.databaseWriterExecutor.execute { tradeDao!!.deleteTrade(id) }
     }
 
+    fun distinctSymbols() : List<String>{
+        val dataReadFuture: Future<List<String>>? = AppDatabase.databaseWriterExecutor.submit(
+            Callable {
+                return@Callable tradeDao!!.getDistinctSymbols()
+            })
+
+        while (!dataReadFuture!!.isDone) {// Simulating another task
+            TimeUnit.SECONDS.sleep(1)
+        }
+
+        return dataReadFuture.get()
+    }
+
+    fun updateLastPrice(symbol: String, price: Double) {
+        AppDatabase.databaseWriterExecutor.execute {tradeDao!!.updateLastPrice(symbol, price)}
+    }
+
     fun tradeList(live: Int): List<Trade> {
         // Using a Callable thread object as there are return values
         val dataReadFuture: Future<List<Trade>>? = AppDatabase.databaseWriterExecutor.submit(
@@ -62,7 +79,7 @@ class TradeRepository(application: Application) {
             })
 
         while (!dataReadFuture!!.isDone) {// Simulating another task
-            TimeUnit.SECONDS.sleep(1)
+            TimeUnit.MILLISECONDS.sleep(10)
         }
 
         return dataReadFuture.get()// as List<Item>

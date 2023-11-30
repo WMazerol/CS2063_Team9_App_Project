@@ -23,6 +23,12 @@ interface TradeDao {
 
     @Query("DELETE FROM trades WHERE id is (:id)")
     abstract fun deleteTrade(id: Int)
+
+    @Query("SELECT DISTINCT symbol FROM trades WHERE closingDate is null")
+    abstract fun getDistinctSymbols(): List<String>
+
+    @Query("UPDATE trades SET lastPrice = (:price) WHERE symbol is (:symbol)")
+    abstract fun updateLastPrice(symbol: String, price: Double)
 }
 
 /*

@@ -2,6 +2,7 @@ package com.example.tradetracker.model
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import com.example.tradetracker.APIController
 import com.example.tradetracker.MainActivity
 import com.example.tradetracker.entity.Trade
@@ -30,6 +31,14 @@ class TradeViewModel(application: Application) : AndroidViewModel(application) {
     fun getTrades(live: Int): List<Trade>
     {
         return tradeRepository.tradeList(live)
+    }
+
+    fun getDistinctSymbols() : List<String> {
+        return tradeRepository.distinctSymbols()
+    }
+
+    fun updateLastPrice(symbol: String, price: Double) {
+        tradeRepository.updateLastPrice(symbol, price)
     }
 
     fun addTrade(symbol: String, buyPrice: Double, stopLoss: Double, takeProfit: Double, shareValue: Double)

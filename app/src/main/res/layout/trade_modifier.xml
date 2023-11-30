@@ -44,7 +44,7 @@
             android:text="@string/trade_modifier_entry"/>
         <EditText
             android:id="@+id/edittext_trade_modifier_entry"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:layout_width="200dp"
             android:layout_height="60dp"
             android:textColor="@color/white"
@@ -63,7 +63,7 @@
             android:text="@string/trade_modifier_share_value"/>
         <EditText
             android:id="@+id/edittext_trade_modifier_share_value"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:layout_width="200dp"
             android:layout_height="60dp"
             android:textColor="@color/white"
@@ -83,7 +83,7 @@
 
         <EditText
             android:id="@+id/edittext_trade_modifier_take_profit"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:layout_width="200dp"
             android:layout_height="60dp"
             android:layout_below="@id/edittext_trade_modifier_share_value"
@@ -106,7 +106,7 @@
 
         <EditText
             android:id="@+id/edittext_trade_modifier_stop_loss"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:layout_width="200dp"
             android:layout_height="60dp"
             android:layout_below="@id/edittext_trade_modifier_take_profit"
@@ -144,6 +144,16 @@
         android:text="@string/back"
         android:textSize="20sp"/>
 
+    <TextView
+        android:id="@+id/textview_trade_modifier_invalid_symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/button_trade_modifier_save"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:visibility="invisible"
+        android:textColor="@color/red_text"
+        android:text="@string/invalid_symbol"/>
 
     <Button
         android:id="@+id/button_trade_modifier_save"

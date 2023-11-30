@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.os.StrictMode
 import android.os.SystemClock
 import android.util.Log
 import android.view.Gravity
@@ -20,6 +21,7 @@ import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -30,6 +32,7 @@ import com.example.tradetracker.entity.Trade
 import com.example.tradetracker.entity.TradeAdapter
 import com.example.tradetracker.layout.TradeModifier
 import com.example.tradetracker.model.TradeViewModel
+import kotlinx.coroutines.GlobalScope
 
 
 class MainActivity : AppCompatActivity() {
@@ -60,6 +63,9 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+        val policy: StrictMode.ThreadPolicy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
 
 
         tradeViewModel = ViewModelProvider(this)[TradeViewModel::class.java]
@@ -149,11 +155,6 @@ class MainActivity : AppCompatActivity() {
         val intentFilter = IntentFilter()
         intentFilter.addAction(Intent.ACTION_POWER_CONNECTED)
         intentFilter.addAction(Intent.ACTION_POWER_DISCONNECTED)
-
-        //apiRequestURL("https://www.advantageonlineshopping.com/accountservice/accountrest/api/v1/health-check")
-
-        priceThread.start()
-        
         
         //GlobalScope.launch{println(">"+apiController.apiRequestURLWithResponse("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"))}
         findViewById<TextView>(R.id.textViewSymbol).text = "BTCUSDT"
@@ -236,10 +237,17 @@ class MainActivity : AppCompatActivity() {
         fun run() {
             running = true
             while(running) {
-                //apiController.apiRequestURL("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
-//                runOnUiThread() {
-//                    refreshTradeList()
-//                }
+                GlobalScope.run {
+                    for(symbol in getDistinctSymbols()) {
+                        val price: Double = apiController.getBinancePrice(symbol)
+                        updateLastPrice(symbol, price)
+                    }
+                }
+
+                runOnUiThread {
+                    refreshTradeList()
+                }
+
                 Thread.sleep(1000)
             }
         }
@@ -250,20 +258,18 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Log.i("TradeTracker - Main", "Destroyed")
-        //priceThread.cancel()
-        priceThread.interrupt()//.cancel()
+        priceThread.join()
     }
 
     override fun onRestart() {
         super.onRestart()
         Log.i("TradeTracker - Main", "Restarted")
-        //priceThread.run()
     }
 
     override fun onResume() {
         super.onResume()
         Log.i("TradeTracker - Main", "Resumed")
-        //priceThread.run()
+        priceThread.start()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -309,6 +315,14 @@ class MainActivity : AppCompatActivity() {
         val results = tradeViewModel.getTrades(live)
 
         listView.adapter = TradeAdapter(this@MainActivity, results)
+    }
+
+    private fun getDistinctSymbols() : List<String> {
+        return tradeViewModel.getDistinctSymbols()
+    }
+
+    private fun updateLastPrice(symbol: String, price: Double) {
+        tradeViewModel.updateLastPrice(symbol, price)
     }
 
     fun getTradesPastStopOrTake(): ArrayList<Trade> {

@@ -1,6 +1,7 @@
 package com.example.tradetracker.entity
 
 import android.content.Context
+import android.database.DataSetObserver
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,17 @@ class TradeAdapter(context: Context, items: List<Trade>) : ArrayAdapter<Trade>(
         tvStopLoss.text = trade!!.stopLoss.toString()
         tvTakeProfit.text = trade!!.takeProfit.toString()
 
+        //Set colour of current price TextView
+        if(trade!!.lastPrice!! < trade.buyPrice!!)
+            tvPrice.setTextColor(context.resources.getColor(R.color.red_text, context.resources.newTheme()))
+        else if(trade!!.lastPrice == trade!!.buyPrice)
+            tvPrice.setTextColor(context.resources.getColor(R.color.white, context.resources.newTheme()))
+        else
+            tvPrice.setTextColor(context.resources.getColor(R.color.green_text, context.resources.newTheme()))
+
+
         // Return the completed view to render on screen
         return currView
     }
+
 }

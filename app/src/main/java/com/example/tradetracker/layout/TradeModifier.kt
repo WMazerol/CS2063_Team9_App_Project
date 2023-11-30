@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.EditText
 import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.tradetracker.APIController
 import com.example.tradetracker.KeyboardUtils
 import com.example.tradetracker.MainActivity
 import com.example.tradetracker.R
@@ -22,6 +24,7 @@ import java.lang.NumberFormatException
 class TradeModifier(activity: AppCompatActivity) {
 
     private var mTradeViewModel: TradeViewModel = ViewModelProvider(activity)[TradeViewModel::class.java]
+    private val apiController = APIController(MainActivity())
 
     private val layoutTradeModifier = activity.findViewById<RelativeLayout>(R.id.layout_trade_modifier)
     private val edittextTradeModifierSymbol = activity.findViewById<EditText>(R.id.edittext_trade_modifier_symbol)
@@ -30,14 +33,16 @@ class TradeModifier(activity: AppCompatActivity) {
     private val edittextTradeModifierTakeProfit = activity.findViewById<EditText>(R.id.edittext_trade_modifier_take_profit)
     private val edittextTradeModifierShareValue = activity.findViewById<EditText>(R.id.edittext_trade_modifier_share_value)
 
+    private val textviewTradeModifierInvalidSymbol = activity.findViewById<TextView>(R.id.textview_trade_modifier_invalid_symbol)
+
     fun backFromTrade() {
         layoutTradeModifier.visibility = View.INVISIBLE
         clearTradeModifierEditTexts()
     }
 
     fun createNewTrade() {
-
-        if(edittextTradeModifierSymbol.text.toString() != "") {
+        if(edittextTradeModifierSymbol.text.toString() != "" &&
+            apiController.checkSymbolIsValid(edittextTradeModifierSymbol.text.toString())) {
             try {
                 mTradeViewModel.insert(
                     edittextTradeModifierSymbol.text.toString(),
@@ -52,6 +57,8 @@ class TradeModifier(activity: AppCompatActivity) {
             } catch (e: NumberFormatException) {
                 Log.i("Trade Modifier", "Empty EditText")
             }
+        } else {
+            textviewTradeModifierInvalidSymbol.visibility = View.VISIBLE
         }
     }
 
@@ -90,6 +97,7 @@ class TradeModifier(activity: AppCompatActivity) {
     }
 
     private fun clearTradeModifierEditTexts() {
+        textviewTradeModifierInvalidSymbol.visibility = View.INVISIBLE
         edittextTradeModifierSymbol.text.clear()
         edittextTradeModifierEntry.text.clear()
         edittextTradeModifierShareValue.text.clear()
