@@ -21,7 +21,7 @@ import java.lang.NumberFormatException
 class TradeModifier(activity: AppCompatActivity) {
 
     private var mTradeViewModel: TradeViewModel = ViewModelProvider(activity)[TradeViewModel::class.java]
-    private val apiController = APIController(MainActivity())
+    private val apiController = APIController()
 
     private val layoutTradeModifier = activity.findViewById<RelativeLayout>(R.id.layout_trade_modifier)
     private val edittextTradeModifierSymbol = activity.findViewById<EditText>(R.id.edittext_trade_modifier_symbol)
@@ -38,8 +38,10 @@ class TradeModifier(activity: AppCompatActivity) {
     }
 
     fun createNewTrade() {
+        println(apiController.checkSymbolIsValidFinnhub(edittextTradeModifierSymbol.text.toString().uppercase()))
         if(edittextTradeModifierSymbol.text.toString() != "" &&
-            apiController.checkSymbolIsValid(edittextTradeModifierSymbol.text.toString().uppercase())) {
+            (apiController.checkSymbolIsValidBinance(edittextTradeModifierSymbol.text.toString().uppercase())
+                    || apiController.checkSymbolIsValidFinnhub(edittextTradeModifierSymbol.text.toString().uppercase()))) {
             try {
                 mTradeViewModel.insert(
                     edittextTradeModifierSymbol.text.toString().uppercase(),

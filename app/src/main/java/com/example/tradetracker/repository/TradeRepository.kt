@@ -4,6 +4,8 @@ import com.example.tradetracker.db.AppDatabase.Companion.getDatabase
 import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.example.tradetracker.APIController
+import com.example.tradetracker.MainActivity
 import com.example.tradetracker.dao.TradeDao
 import com.example.tradetracker.db.AppDatabase
 import com.example.tradetracker.entity.Trade
@@ -15,6 +17,7 @@ import java.util.concurrent.TimeUnit
 
 class TradeRepository(application: Application) {
     private val tradeDao: TradeDao? = getDatabase(application).tradeDao()
+    private val apiController: APIController = APIController()
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun insertRecord(symbol: String, buyPrice: Double, stopLoss: Double, takeProfit: Double, shareValue: Double) {
@@ -25,6 +28,9 @@ class TradeRepository(application: Application) {
         trade.takeProfit = takeProfit
         trade.shareValue = shareValue
         trade.lastNotified = trade.formatDateToString(LocalDateTime.now())
+
+        trade.isCrypto = apiController.checkSymbolIsValidBinance(symbol)
+
         insert(trade)
     }
 
@@ -65,7 +71,7 @@ class TradeRepository(application: Application) {
         return dataReadFuture.get()
     }
 
-    fun updateLastPrice(symbol: String, price: Double) {
+    fun updateLastPrice(symbol: String, price: Double?) {
         AppDatabase.databaseWriterExecutor.execute {tradeDao!!.updateLastPrice(symbol, price)}
     }
 
@@ -102,4 +108,18 @@ class TradeRepository(application: Application) {
 
         return dataReadFuture.get()
     }
+
+    fun symbolIsCrypto(symbol: String): Boolean {
+        val dataReadFuture: Future<Boolean>? = AppDatabase.databaseWriterExecutor.submit(
+            Callable {
+                return@Callable tradeDao!!.symbolIsCrypto(symbol)
+            })
+
+        while (!dataReadFuture!!.isDone) {// Simulating another task
+            TimeUnit.MILLISECONDS.sleep(10)
+        }
+
+        return dataReadFuture.get()
+    }
+
 }

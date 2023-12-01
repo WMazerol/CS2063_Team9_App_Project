@@ -21,7 +21,7 @@ private const val NOTIFICATION_TIME_DELAY_HOURS = 0 //Should be 2 (for 2 hours) 
 class AlarmReceiver : BroadcastReceiver() {
 
     //private val tradeRepository: TradeRepository = TradeRepository(MainActivity().application)
-    private val apiController: APIController = APIController(MainActivity())
+    private val apiController: APIController = APIController()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onReceive(context: Context, intent: Intent) {
@@ -30,15 +30,16 @@ class AlarmReceiver : BroadcastReceiver() {
         println("Alarm Received")
 
         for(symbol in tradeRepository.distinctSymbols()) {
-            tradeRepository.updateLastPrice(symbol, apiController.getBinancePrice(symbol))
+            if(tradeRepository.symbolIsCrypto(symbol))
+                tradeRepository.updateLastPrice(symbol, apiController.getBinancePrice(symbol))
+            else
+                tradeRepository.updateLastPrice(symbol, apiController.getFinnhubPrice(symbol))
         }
 
         for(trade in tradeRepository.getTradesPastStopOrTake()) {
 
             if(trade.lastNotified == null)
                 trade.refreshLastNotified()
-
-            println(trade.lastNotified!!)
 
             if(trade.lastNotified == null || Duration.between(trade.formatStringToDate(trade.lastNotified!!), LocalDateTime.now()).toHours() >= NOTIFICATION_TIME_DELAY_HOURS) {
 

@@ -1,6 +1,8 @@
 package com.example.tradetracker.model
 
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import com.example.tradetracker.entity.Trade
 import com.example.tradetracker.repository.TradeRepository
@@ -8,6 +10,7 @@ import com.example.tradetracker.repository.TradeRepository
 class TradeViewModel(application: Application) : AndroidViewModel(application) {
     private val tradeRepository: TradeRepository = TradeRepository(application)
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun insert(symbol: String, buyPrice: Double, stopLoss: Double, takeProfit: Double, shareValue: Double) {
         tradeRepository.insertRecord(symbol, buyPrice, stopLoss, takeProfit, shareValue)
     }
@@ -33,7 +36,7 @@ class TradeViewModel(application: Application) : AndroidViewModel(application) {
         return tradeRepository.distinctSymbols()
     }
 
-    fun updateLastPrice(symbol: String, price: Double) {
+    fun updateLastPrice(symbol: String, price: Double?) {
         tradeRepository.updateLastPrice(symbol, price)
     }
 

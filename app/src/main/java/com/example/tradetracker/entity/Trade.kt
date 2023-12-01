@@ -60,6 +60,13 @@ import java.time.format.DateTimeFormatter
         }
 
     @ColumnInfo
+    var isCrypto: Boolean? = null
+        get() = field
+        set(value) {
+            field = value
+        }
+
+    @ColumnInfo
     var closingDate: String? = null
         get() = field
         set(value) {

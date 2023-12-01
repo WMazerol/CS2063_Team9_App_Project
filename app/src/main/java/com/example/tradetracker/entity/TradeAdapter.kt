@@ -37,7 +37,7 @@ class TradeAdapter(context: Context, items: List<Trade>) : ArrayAdapter<Trade>(
         tvTakeProfit.text = trade!!.takeProfit.toString()
 
         try {
-            tvPrice.text = trade.lastPrice.toString() +
+            tvPrice.text = String.format("%.5f", trade.lastPrice) +
                     "(${
                         String.format(
                             "%.2f",

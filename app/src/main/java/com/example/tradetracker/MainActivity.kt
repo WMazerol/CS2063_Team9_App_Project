@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var alarmManager: AlarmManager
     private lateinit var alarmIntent: PendingIntent
     private val alarmTimeInterval = 5 * 1000
-    private val apiController = APIController(this@MainActivity)
+    private val apiController = APIController()
     private lateinit var tradeViewModel: TradeViewModel
     private lateinit var listView: ListView
     private lateinit var popupMenu: View
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        binding.fab.setOnClickListener { view ->
+        binding.fab.setOnClickListener { _ ->
             Log.i("Trade Modifier", "Open Layout")
             findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.VISIBLE
             Log.i("Trade Modifier", findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility.toString())
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
         if(alarmIntent != null && alarmManager != null) {
             alarmManager.cancel(alarmIntent)
         }
-        println(alarmManager == null || alarmIntent == null)
+
         setAlarmIntent()
 
         val intentFilter = IntentFilter()
@@ -221,7 +221,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val priceThread = Thread {
-        var running = false
+        var running: Boolean
 
         fun cancel() {
             running = false
@@ -232,7 +232,13 @@ class MainActivity : AppCompatActivity() {
             while(running) {
                 GlobalScope.run {
                     for(symbol in getDistinctSymbols()) {
-                        val price: Double = apiController.getBinancePrice(symbol)
+                        var price: Double? = null
+                        if(apiController.checkSymbolIsValidBinance(symbol)) {
+                            price = apiController.getBinancePrice(symbol)
+                        } else if(apiController.checkSymbolIsValidFinnhub(symbol)) {
+                            price = apiController.getFinnhubPrice(symbol)
+                        }
+
                         updateLastPrice(symbol, price)
                     }
                 }
@@ -262,7 +268,10 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.i("TradeTracker - Main", "Resumed")
-        priceThread.start()
+        //try{
+            priceThread.start()
+        //} catch(e: RuntimeException) {}
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -314,7 +323,7 @@ class MainActivity : AppCompatActivity() {
         return tradeViewModel.getDistinctSymbols()
     }
 
-    private fun updateLastPrice(symbol: String, price: Double) {
+    private fun updateLastPrice(symbol: String, price: Double?) {
         tradeViewModel.updateLastPrice(symbol, price)
     }
 
