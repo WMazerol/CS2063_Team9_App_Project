@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.StrictMode
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
@@ -22,10 +23,12 @@ class AlarmReceiver : BroadcastReceiver() {
 
     //private val tradeRepository: TradeRepository = TradeRepository(MainActivity().application)
     private val apiController: APIController = APIController()
+    val policy: StrictMode.ThreadPolicy = StrictMode.ThreadPolicy.Builder().permitAll().build()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onReceive(context: Context, intent: Intent) {
         val tradeRepository = TradeRepository(context.applicationContext as Application)
+        StrictMode.setThreadPolicy(policy)
 
         println("Alarm Received")
 

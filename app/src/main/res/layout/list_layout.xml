@@ -3,53 +3,120 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:baselineAligned="true">
+    android:baselineAligned="true"
+    android:layout_marginLeft="25dp"
+    android:layout_marginRight="25dp">
 
     <TextView
         android:id="@+id/textViewSymbol"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="175dp"
+        android:layout_height="38dp"
         android:layout_marginTop="24dp"
-        android:text="Symbol"
+        android:layout_marginLeft="10dp"
+        android:text="@string/trade_list_placeholder_symbol"
+        android:gravity="left|center"
+        android:textSize="28sp"
         android:textAppearance="?attr/textAppearanceListItem"
         app:layout_constraintHorizontal_bias="0" />
 
     <TextView
-        android:id="@+id/textViewBuyPrice"
-        android:layout_width="wrap_content"
+        android:layout_width="85dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Buy Price"
+        android:layout_marginTop="14dp"
+        android:text="@string/trade_list_entry"
+        android:textColor="@color/grey_text"
         android:textAppearance="?attr/textAppearanceListItem"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintVertical_bias="1.0"
+        android:textAlignment="textEnd"
         android:layout_below="@id/textViewSymbol"/>
+    <TextView
+        android:id="@+id/textViewBuyPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="@string/trade_list_placeholder_entry"
+        android:textAppearance="?attr/textAppearanceListItem"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_below="@id/textViewSymbol"
+        android:layout_marginLeft="90dp"/>
 
+    <TextView
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="@string/trade_list_stop_loss"
+        android:textColor="@color/grey_text"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textAlignment="textEnd"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_below="@id/textViewBuyPrice"/>
     <TextView
         android:id="@+id/textViewStopLoss"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Stop Loss"
+        android:text="@string/trade_list_placeholder_stop_loss"
         android:textAppearance="?attr/textAppearanceListItem"
         app:layout_constraintHorizontal_bias="0"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="90dp"
         android:layout_below="@id/textViewBuyPrice"/>
 
     <TextView
-        android:id="@+id/textViewTakeProfit"
-        android:layout_width="wrap_content"
+        android:layout_width="85dp"
         android:layout_height="wrap_content"
-        android:text="Take Profit"
+        android:layout_marginTop="14dp"
+        android:text="@string/trade_list_take_profit"
+        android:textColor="@color/grey_text"
         android:textAppearance="?attr/textAppearanceListItem"
-        android:layout_marginTop="24dp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintVertical_bias="1.0"
+        android:textAlignment="textEnd"
+        android:layout_marginRight="90dp"
         android:layout_below="@id/textViewPrice"
+        android:layout_alignParentRight="true"/>
+    <TextView
+        android:id="@+id/textViewTakeProfit"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:text="@string/trade_list_placeholder_take_profit"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_marginTop="14dp"
+        android:layout_below="@id/textViewPrice"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="@string/trade_list_share_value"
+        android:textColor="@color/grey_text"
+        android:textAppearance="?attr/textAppearanceListItem"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintVertical_bias="1.0"
+        android:textAlignment="textEnd"
+        android:layout_marginRight="90dp"
+        android:layout_below="@id/textViewTakeProfit"
+        android:layout_alignParentRight="true"/>
+    <TextView
+        android:id="@+id/textViewAmount"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:text="@string/trade_list_placeholder_share_value"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_marginTop="14dp"
+        android:layout_below="@id/textViewTakeProfit"
         android:layout_alignParentRight="true"/>
 
     <TextView
         android:id="@+id/textViewPrice"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Price/Change"
+        android:layout_height="38dp"
+        android:text="@string/trade_list_placeholder_price"
+        android:textSize="20sp"
+        android:gravity="center"
         android:textAppearance="?attr/textAppearanceListItem"
         android:layout_marginTop="24dp"
         android:layout_alignParentRight="true"/>

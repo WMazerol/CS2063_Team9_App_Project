@@ -20,6 +20,18 @@
     <string name="trade_modifier_entry">Entry Price</string>
     <string name="trade_modifier_share_value">Amount / USDT</string>
 
+    <string name="trade_list_take_profit">Take Profit:</string>
+    <string name="trade_list_stop_loss">Stop-Loss:</string>
+    <string name="trade_list_entry">Entry:</string>
+    <string name="trade_list_share_value">Amount:</string>
+
+    <string name="trade_list_placeholder_symbol">Symbol</string>
+    <string name="trade_list_placeholder_price">Price/Change</string>
+    <string name="trade_list_placeholder_take_profit">Take Profit</string>
+    <string name="trade_list_placeholder_stop_loss">Stop-Loss</string>
+    <string name="trade_list_placeholder_entry">Entry</string>
+    <string name="trade_list_placeholder_share_value">Amount</string>
+
     <string name="tab_history">History</string>
     <string name="tab_live">Live</string>
     <string name="popup_text">Would You Like To Close This Trade?</string>
