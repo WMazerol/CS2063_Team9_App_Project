@@ -1,11 +1,13 @@
 package com.example.tradetracker
 
+import android.util.Log
 import io.finnhub.api.apis.DefaultApi
 import io.finnhub.api.infrastructure.ApiClient
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
 import java.io.IOException
+import java.net.SocketTimeoutException
 
 private const val ALPHA_VANTAGE_API_KEY = "YG9YMFZHV0BQGERS"
 
@@ -50,7 +52,12 @@ class APIController() {
     }
 
     fun checkSymbolIsValidFinnhub(symbol: String): Boolean {
-        return stockApiClient.symbolSearch(symbol).count!! > 0
+        return try{
+            stockApiClient.symbolSearch(symbol).count!! > 0
+        } catch (e: SocketTimeoutException) {
+            Log.i("API Controller", "Socket Timeout")
+            false
+        }
     }
 
     init {

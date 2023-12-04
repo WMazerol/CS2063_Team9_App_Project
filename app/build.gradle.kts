@@ -61,4 +61,8 @@ dependencies {
 
     // Stocks API
     implementation("io.finnhub:kotlin-client:2.0.20")
+
+    // Swipe-able layout library
+    implementation("com.android.support:support-v4:20.+")
+    implementation("com.daimajia.swipelayout:library:1.2.0@aar")
 }

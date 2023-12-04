@@ -11,6 +11,7 @@ import android.os.StrictMode
 import android.os.SystemClock
 import android.util.Log
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -19,14 +20,11 @@ import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.PopupWindow
 import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
+import com.daimajia.swipe.SwipeLayout
+import com.daimajia.swipe.SwipeLayout.SwipeListener
 import com.example.tradetracker.databinding.ActivityMainBinding
 import com.example.tradetracker.entity.Trade
 import com.example.tradetracker.entity.TradeAdapter
@@ -38,13 +36,14 @@ import kotlinx.coroutines.GlobalScope
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
     private lateinit var alarmManager: AlarmManager
     private lateinit var alarmIntent: PendingIntent
     private val alarmTimeInterval = 5 * 1000
     private val apiController = APIController()
     private lateinit var tradeViewModel: TradeViewModel
     private lateinit var listView: ListView
+    private lateinit var mSwipeListView: SwipeLayout
     private lateinit var popupMenu: View
     private var live = 1
     private var selectedTrade: Trade? = null
@@ -264,9 +263,9 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.i("TradeTracker - Main", "Resumed")
-        //try{
+
+        if(!priceThread.isAlive)
             priceThread.start()
-        //} catch(e: RuntimeException) {}
 
     }
 
