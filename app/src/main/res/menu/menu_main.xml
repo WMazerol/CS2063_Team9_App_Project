@@ -1,9 +1,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:textColor="@color/white"
     tools:context="com.example.tradetracker.MainActivity">
 
     <item
         android:id="@+id/tab_crypto"
         android:title="@string/tab_history" />
+<!--    <item-->
+<!--        android:id="@+id/json_export"-->
+<!--        android:title="JSON Export"/>-->
 </menu>

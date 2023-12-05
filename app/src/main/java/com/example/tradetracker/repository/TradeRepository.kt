@@ -9,6 +9,8 @@ import com.example.tradetracker.MainActivity
 import com.example.tradetracker.dao.TradeDao
 import com.example.tradetracker.db.AppDatabase
 import com.example.tradetracker.entity.Trade
+import org.json.JSONArray
+import org.json.JSONObject
 import java.time.LocalDateTime
 import java.util.Calendar
 import java.util.concurrent.Future
@@ -132,7 +134,30 @@ class TradeRepository(application: Application) {
             TimeUnit.MILLISECONDS.sleep(1)
         }
 
-        return dataReadFuture.get()
+        return dataReadFuture.get() 
+    }
+
+    fun getHistoricalTradeListAsJsonString() {
+        val trades = tradeList(0)
+
+        var historicalTrades: JSONArray = JSONArray()
+        for(trade in trades) {
+            var cur = JSONObject()
+
+            cur.put("symbol", trade.symbol)
+            cur.put("buy_price", trade.buyPrice)
+            cur.put("stop_loss", trade.stopLoss)
+            cur.put("take_profit", trade.takeProfit)
+            cur.put("amount", trade.shareValue)
+            cur.put("closing_price", trade.lastPrice)
+            cur.put("is_crypto", trade.isCrypto)
+            cur.put("closing_date", trade.closingDate)
+
+            historicalTrades.put(cur)
+        }
+
+        var json: JSONObject = JSONObject()
+        json.put("historical_trades", historicalTrades)
     }
 
 }
