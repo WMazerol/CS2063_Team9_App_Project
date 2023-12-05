@@ -48,4 +48,12 @@ class TradeViewModel(application: Application) : AndroidViewModel(application) {
     fun getTradesPastStopOrTake(): List<Trade> {
         return tradeRepository.getTradesPastStopOrTake()
     }
+
+    fun symbolIsCrypto(symbol: String): Boolean {
+        return tradeRepository.symbolIsCrypto(symbol)
+    }
+
+    fun getPriceFromSymbol(symbol: String): Double {
+        return tradeRepository.getPriceFromSymbol(symbol)
+    }
 }

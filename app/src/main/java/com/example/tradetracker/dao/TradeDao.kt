@@ -35,6 +35,9 @@ interface TradeDao {
 
     @Query("SELECT DISTINCT isCrypto FROM trades WHERE symbol = (:symbol)")
     abstract fun symbolIsCrypto(symbol: String): Boolean
+
+    @Query("SELECT DISTINCT lastPrice FROM trades WHERE symbol = (:symbol)")
+    abstract fun getPriceFromSymbol(symbol: String): Double
 }
 
 /*

@@ -3,13 +3,14 @@ package com.example.tradetracker
 import android.util.Log
 import io.finnhub.api.apis.DefaultApi
 import io.finnhub.api.infrastructure.ApiClient
+import io.finnhub.api.infrastructure.ClientError
+import io.finnhub.api.infrastructure.ClientException
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
 import java.io.IOException
 import java.net.SocketTimeoutException
 
-private const val ALPHA_VANTAGE_API_KEY = "YG9YMFZHV0BQGERS"
 
 class APIController() {
 
@@ -17,9 +18,6 @@ class APIController() {
     private val stockApiClient = DefaultApi()
 
     private val binanceGetPriceURL = "https://api.binance.com/api/v3/ticker/price?symbol="
-    private fun alphaVantageGetPriceUrl(symbol: String): String {
-        return "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=$symbol&apikey=$ALPHA_VANTAGE_API_KEY"
-    }
 
     private fun apiRequestURLWithResponse(url: String): String {
             val request = Request.Builder()
@@ -34,12 +32,25 @@ class APIController() {
         return responseBody
     }
 
-    fun getBinancePrice(symbol: String) : Double {
-        return(JSONObject(apiRequestURLWithResponse(binanceGetPriceURL+symbol)).getDouble("price"))
+    fun getBinancePrice(symbol: String) : Double? {
+        return try{
+            JSONObject(apiRequestURLWithResponse(binanceGetPriceURL+symbol)).getDouble("price")
+        } catch (e: SocketTimeoutException) {
+            //Log.i("API Controller", "Socket Timeout")
+            null
+        }
     }
 
     fun getFinnhubPrice(symbol: String): Double? {
-        return stockApiClient.quote(symbol).c!!.toDouble()
+        return try{
+            stockApiClient.quote(symbol).c!!.toDouble()
+        } catch (e: SocketTimeoutException) {
+            //Log.i("API Controller", "Socket Timeout")
+            null
+        } catch (e: ClientException) {
+            //Log.i("API Controller", "Client Exception: " + e.message)
+            null
+        }
     }
 
     fun checkSymbolIsValidBinance(symbol: String): Boolean {
@@ -53,9 +64,12 @@ class APIController() {
 
     fun checkSymbolIsValidFinnhub(symbol: String): Boolean {
         return try{
-            stockApiClient.symbolSearch(symbol).count!! > 0
+            getFinnhubPrice(symbol) != null
         } catch (e: SocketTimeoutException) {
-            Log.i("API Controller", "Socket Timeout")
+            //Log.i("API Controller", "Socket Timeout")
+            false
+        } catch (e: ClientException) {
+            //Log.i("API Controller", "Client Exception")
             false
         }
     }

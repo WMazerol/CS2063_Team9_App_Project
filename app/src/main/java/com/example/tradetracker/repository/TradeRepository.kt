@@ -65,7 +65,7 @@ class TradeRepository(application: Application) {
             })
 
         while (!dataReadFuture!!.isDone) {// Simulating another task
-            TimeUnit.MILLISECONDS.sleep(10)
+            TimeUnit.MILLISECONDS.sleep(1)
         }
 
         return dataReadFuture.get()
@@ -90,7 +90,7 @@ class TradeRepository(application: Application) {
             })
 
         while (!dataReadFuture!!.isDone) {// Simulating another task
-            TimeUnit.MILLISECONDS.sleep(10)
+            TimeUnit.MILLISECONDS.sleep(1)
         }
 
         return dataReadFuture.get()// as List<Item>
@@ -103,7 +103,7 @@ class TradeRepository(application: Application) {
             })
 
         while (!dataReadFuture!!.isDone) {// Simulating another task
-            TimeUnit.MILLISECONDS.sleep(10)
+            TimeUnit.MILLISECONDS.sleep(1)
         }
 
         return dataReadFuture.get()
@@ -116,7 +116,20 @@ class TradeRepository(application: Application) {
             })
 
         while (!dataReadFuture!!.isDone) {// Simulating another task
-            TimeUnit.MILLISECONDS.sleep(10)
+            TimeUnit.MILLISECONDS.sleep(1)
+        }
+
+        return dataReadFuture.get()
+    }
+
+    fun getPriceFromSymbol(symbol: String): Double {
+        val dataReadFuture: Future<Double>? = AppDatabase.databaseWriterExecutor.submit(
+            Callable {
+                return@Callable tradeDao!!.getPriceFromSymbol(symbol)
+            })
+
+        while (!dataReadFuture!!.isDone) {// Simulating another task
+            TimeUnit.MILLISECONDS.sleep(1)
         }
 
         return dataReadFuture.get()

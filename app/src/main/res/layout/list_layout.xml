@@ -143,11 +143,11 @@
 
         <TextView
             android:id="@+id/textViewPrice"
-            android:layout_width="wrap_content"
+            android:layout_width="225dp"
             android:layout_height="38dp"
             android:text="@string/trade_list_placeholder_price"
             android:textSize="20sp"
-            android:gravity="center"
+            android:gravity="center|right"
             android:textAppearance="?attr/textAppearanceListItem"
             android:layout_marginTop="24dp"
             android:layout_alignParentRight="true"/>

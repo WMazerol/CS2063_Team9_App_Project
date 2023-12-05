@@ -20,7 +20,9 @@ import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.PopupWindow
 import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.ui.AppBarConfiguration
 import com.daimajia.swipe.SwipeLayout
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     private lateinit var alarmManager: AlarmManager
     private lateinit var alarmIntent: PendingIntent
-    private val alarmTimeInterval = 5 * 1000
+    private val alarmTimeInterval = 60 * 1000
     private val apiController = APIController()
     private lateinit var tradeViewModel: TradeViewModel
     private lateinit var listView: ListView
@@ -68,13 +70,13 @@ class MainActivity : AppCompatActivity() {
             PendingIntent.getBroadcast(this@MainActivity, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         }
 
-
         binding.fab.setOnClickListener { _ ->
             Log.i("Trade Modifier", "Open Layout")
             findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.VISIBLE
             Log.i("Trade Modifier", findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility.toString())
             binding.fab.visibility = View.INVISIBLE
             findViewById<Button>(R.id.button_trade_modifier_close).visibility = View.INVISIBLE
+            findViewById<Button>(R.id.button_trade_modifier_delete).visibility = View.INVISIBLE
 
             selectedTrade = null
         }
@@ -170,6 +172,7 @@ class MainActivity : AppCompatActivity() {
                 findViewById<RelativeLayout>(R.id.layout_trade_modifier).visibility = View.VISIBLE
                 binding.fab.visibility = View.INVISIBLE
                 findViewById<Button>(R.id.button_trade_modifier_close).visibility = View.VISIBLE
+                findViewById<Button>(R.id.button_trade_modifier_delete).visibility = View.VISIBLE
             }
         }
 
@@ -228,21 +231,32 @@ class MainActivity : AppCompatActivity() {
                 GlobalScope.run {
                     for(symbol in getDistinctSymbols()) {
                         var price: Double? = null
-                        if(apiController.checkSymbolIsValidBinance(symbol)) {
-                            price = apiController.getBinancePrice(symbol)
-                        } else if(apiController.checkSymbolIsValidFinnhub(symbol)) {
-                            price = apiController.getFinnhubPrice(symbol)
+                        price = if(tradeViewModel.symbolIsCrypto(symbol)) {
+                            apiController.getBinancePrice(symbol)
+                        } else {
+                            apiController.getFinnhubPrice(symbol)
                         }
 
-                        updateLastPrice(symbol, price)
+                        if(price != null) // Protects against API errors
+                            updateLastPrice(symbol, price)
                     }
                 }
 
+
                 runOnUiThread {
-                    refreshTradeList()
+                    //refreshTradeList()
+                    for(i in 0 until listView.childCount){
+                        val view: View = listView.getChildAt(i)
+                        val symbol = view.findViewById<TextView>(R.id.textViewSymbol).text.toString()
+                        val entry = view.findViewById<TextView>(R.id.textViewBuyPrice).text.toString().toDouble()
+                        try{
+                            (listView.adapter as TradeAdapter).updateCurrentPriceTextView(view, getPriceFromSymbol(symbol), entry)
+                        } catch (e: NullPointerException) {}
+                    }
+
                 }
 
-                Thread.sleep(1000)
+                Thread.sleep(2000)
             }
         }
 
@@ -314,6 +328,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateLastPrice(symbol: String, price: Double?) {
         tradeViewModel.updateLastPrice(symbol, price)
+    }
+
+    private fun getPriceFromSymbol(symbol: String): Double {
+        return tradeViewModel.getPriceFromSymbol(symbol)
     }
 
 }

@@ -28,7 +28,6 @@ class TradeAdapter(context: Context, items: List<Trade>) : ArrayAdapter<Trade>(
     private val tradeRepository: TradeRepository = TradeRepository(context.applicationContext as Application)
     private var swipeOpenStatuses: ArrayList<SwipeLayout.Status> = ArrayList<SwipeLayout.Status>(0)
 
-    @SuppressLint("SetTextI18n")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         // Get the data item for this position
         val trade = getItem(position)
@@ -49,35 +48,20 @@ class TradeAdapter(context: Context, items: List<Trade>) : ArrayAdapter<Trade>(
         val bSwipeCloseTrade = currView.findViewById<Button>(R.id.buttonSwipeCloseTrade)
 
         tvSymbol.text = trade!!.symbol
-        tvBuyPrice.text = trade!!.buyPrice.toString()
-        tvStopLoss.text = trade!!.stopLoss.toString()
-        tvTakeProfit.text = trade!!.takeProfit.toString()
-        tvShareValue.text = trade!!.shareValue.toString()
+        tvBuyPrice.text = trade.buyPrice.toString()
+        tvStopLoss.text = trade.stopLoss.toString()
+        tvTakeProfit.text = trade.takeProfit.toString()
+        tvShareValue.text = trade.shareValue.toString()
 
         try {
-            tvPrice.text = String.format("%.5f", trade.lastPrice) +
-                    "(${
-                        String.format(
-                            "%.2f",
-                            (trade!!.lastPrice!!.div(trade!!.buyPrice!!) - 1) * 100
-                        )
-                    }%)"
-
-            //Set colour of current price TextView
-            if(trade!!.lastPrice!! < trade.buyPrice!!)
-                tvPrice.setTextColor(context.resources.getColor(R.color.red_text, context.resources.newTheme()))
-            else if(trade!!.lastPrice == trade!!.buyPrice)
-                tvPrice.setTextColor(context.resources.getColor(R.color.white, context.resources.newTheme()))
-            else
-                tvPrice.setTextColor(context.resources.getColor(R.color.green_text, context.resources.newTheme()))
-
-        } catch(e: NullPointerException) {}
+            updateCurrentPriceTextView(currView, trade.lastPrice!!, trade.buyPrice!!)
+        } catch (e: NullPointerException) {}
 
         if(trade.closingDate == null) {
             bSwipeCloseTrade.setOnClickListener {
                 tradeRepository.closeTrade(trade)
             }
-            setupListItemSwipe(currView, trade)
+            run{setupListItemSwipe(currView, trade)}
         } else {
             currView.findViewById<SwipeLayout>(R.id.swipe_list_view).isSwipeEnabled = false
         }
@@ -122,11 +106,34 @@ class TradeAdapter(context: Context, items: List<Trade>) : ArrayAdapter<Trade>(
             }
         })
 
-        Log.i("Swipe List Item", (swipeViewOpenStatus == SwipeLayout.Status.Open).toString() + ", " + (swipeViewOpenStatus == SwipeLayout.Status.Middle) + ", " + (swipeViewOpenStatus == SwipeLayout.Status.Close))
+        //Log.i("Swipe List Item", (swipeViewOpenStatus == SwipeLayout.Status.Open).toString() + ", " + (swipeViewOpenStatus == SwipeLayout.Status.Middle) + ", " + (swipeViewOpenStatus == SwipeLayout.Status.Close))
         if(swipeViewOpenStatus == SwipeLayout.Status.Open || swipeViewOpenStatus == SwipeLayout.Status.Middle) {
             swipeView.open()
         }
 
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun updateCurrentPriceTextView(currView: View, currentPrice: Double, entryPrice: Double) {
+        val textView = currView.findViewById<TextView>(R.id.textViewPrice)
+        try {
+            textView.text = String.format("%.5f", currentPrice) +
+                    "(${
+                        String.format(
+                            "%.2f",
+                            (currentPrice.div(entryPrice) - 1) * 100
+                        )
+                    }%)"
+
+            //Set colour of current price TextView
+            if(currentPrice < entryPrice)
+                textView.setTextColor(context.resources.getColor(R.color.red_text, context.resources.newTheme()))
+            else if(currentPrice == entryPrice)
+                textView.setTextColor(context.resources.getColor(R.color.white, context.resources.newTheme()))
+            else
+                textView.setTextColor(context.resources.getColor(R.color.green_text, context.resources.newTheme()))
+
+        } catch(e: NullPointerException) {}
     }
 
 }

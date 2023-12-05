@@ -2,6 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="dark_bg">#1c1b20</color>
+    <color name="dark_appbar_bg">#0c0b10</color>
 
     <color name="red_text">#DF0000</color>
     <color name="green_text">#8FFF8F</color>
