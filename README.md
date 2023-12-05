@@ -56,5 +56,8 @@
        At the moment, the trading assests can only be traded against US Dollar. In a future iteration for this app, we aim to implement the functionality to track tickers/stocks against
        other currency pairs. For example BTCEUR (against Euros) or BTCYEN (against Japanese Yen) etc.
 
+  * **Trade History Export:**
+       Export trade history as a JSON file. This would be ideal to get a sense of your overall trading performance based on all your trades taken in the past.
+
 ### Supported API levels:
 TradeTracker supports API levels of 26 and above.
