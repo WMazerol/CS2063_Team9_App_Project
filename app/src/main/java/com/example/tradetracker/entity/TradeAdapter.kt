@@ -83,6 +83,7 @@ class TradeAdapter(context: Context, items: List<Trade>) : ArrayAdapter<Trade>(
         swipeView.addSwipeListener(object : SwipeLayout.SwipeListener {
             override fun onClose(layout: SwipeLayout) {
                 //Log.i("Swipe List Item", "onClose")
+                swipeView.isClickable = false
             }
 
             override fun onUpdate(layout: SwipeLayout, leftOffset: Int, topOffset: Int) {
@@ -91,18 +92,22 @@ class TradeAdapter(context: Context, items: List<Trade>) : ArrayAdapter<Trade>(
 
             override fun onStartOpen(layout: SwipeLayout) {
                 //Log.i("Swipe List Item", "on start open")
+                swipeView.isClickable = false
             }
 
             override fun onOpen(layout: SwipeLayout) {
                 //Log.i("Swipe List Item", "the BottomView is shown")
+                swipeView.isClickable = false
             }
 
             override fun onStartClose(layout: SwipeLayout) {
                 //Log.i("Swipe List Item", "the BottomView is closed")
+                swipeView.isClickable = false
             }
 
             override fun onHandRelease(layout: SwipeLayout, xvel: Float, yvel: Float) {
                 //Log.i("Swipe List Item", "hand released")
+                swipeView.isClickable = true
             }
         })
 

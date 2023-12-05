@@ -134,7 +134,7 @@ class TradeRepository(application: Application) {
             TimeUnit.MILLISECONDS.sleep(1)
         }
 
-        return dataReadFuture.get() 
+        return dataReadFuture.get()
     }
 
     fun getHistoricalTradeListAsJsonString() {

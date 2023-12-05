@@ -36,6 +36,7 @@
         android:baselineAligned="true"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="0dp"
+        android:id="@+id/surface_view"
         android:layout_gravity="center">
 
         <TextView
