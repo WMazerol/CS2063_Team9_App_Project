@@ -253,7 +253,6 @@ class MainActivity : AppCompatActivity() {
                             (listView.adapter as TradeAdapter).updateCurrentPriceTextView(view, getPriceFromSymbol(symbol), entry)
                         } catch (e: NullPointerException) {}
                     }
-
                 }
 
                 Thread.sleep(2000)
